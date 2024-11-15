@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Soạn câu hỏi</title>
+    <script src="../public/vendor//jquery/jquery.min.js"></script>
+</head>
+
+<body>
+    <h3>Soạn câu hỏi</h3>
+    <textarea id="questionInput" rows="10" cols="50"></textarea><br>
+    <button onclick="processQuestions()">Xem trước</button>
+
+    <h3>Kết quả xem trước</h3>
+    <div id="preview"></div>
+    <script>
+
+        $(document).ready(function() {
+            let previousValue = $("#questionInput").val(); // Store the initial value
+
+            $("#questionInput").on("input", function() {
+                processQuestions();
+            });
+        });
+
+        function processQuestions() {
+            const input = document.getElementById("questionInput").value;
+            const lines = input.split("\n");  // Tách từng dòng
+            let questions_arr = [];
+            let currentQuestion = null;
+
+            lines.forEach((line, index) => {
+                line = line.trim();
+
+                // Kiểm tra xem có phải là câu hỏi mới (bắt đầu bằng dấu ')
+                if (line.startsWith("'")) {
+                    // Nếu có câu hỏi hiện tại, lưu nó vào mảng trước khi tạo câu hỏi mới
+                    if (currentQuestion) {
+                        questions_arr.push(currentQuestion);
+                    }
+
+                    // Khởi tạo câu hỏi mới
+                    currentQuestion = {
+                        content: line.substring(1).trim(), // Nội dung câu hỏi
+                        options: [], // Mảng các lựa chọn
+                        answer: null // Câu trả lời đúng
+                    };
+                } else if (currentQuestion && line !== "") {
+                    // Xử lý các lựa chọn đáp án
+                    const isCorrect = line.startsWith("*");
+                    const optionText = isCorrect ? line.substring(1).trim() : line;
+
+                    currentQuestion.options.push(optionText);
+                    if (isCorrect) {
+                        currentQuestion.answer = optionText;
+                    }
+                }
+
+                // Nếu là dòng cuối và vẫn còn câu hỏi đang xử lý, lưu câu hỏi đó
+                if (index === lines.length - 1 && currentQuestion) {
+                    questions_arr.push(currentQuestion);
+                }
+            });
+
+            displayQuestions(questions_arr);
+            console.log(questions_arr);
+        }
+
+        function displayQuestions(questions_arr) {
+            const previewDiv = document.getElementById("preview");
+            previewDiv.innerHTML = ""; // Xóa nội dung cũ
+
+            questions_arr.forEach((question, index) => {
+                const questionDiv = document.createElement("div");
+                questionDiv.innerHTML = `<strong>Câu ${index + 1}: ${question.content}</strong><br>`;
+
+                question.options.forEach((option, i) => {
+                    const optionDiv = document.createElement("div");
+                    optionDiv.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
+                    if (option === question.answer) {
+                        optionDiv.style.color = "green";
+                        optionDiv.innerHTML += " (Đáp án đúng)";
+                    }
+                    questionDiv.appendChild(optionDiv);
+                });
+
+                previewDiv.appendChild(questionDiv);
+            });
+        }
+
+
+    </script>
+</body>
+
+</html>

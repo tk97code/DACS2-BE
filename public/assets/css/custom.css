@@ -1,0 +1,50 @@
+.login-button {
+    font-weight: bold;
+    color: white;
+    background-color: black;
+    font-size: 17px;
+    padding-inline: 20px;
+    border: 1px solid black;
+    transition: .3s ease-in-out;
+}
+
+.login-button:hover {
+    color: white;
+    /* box-shadow: inset 6.5em 0 0 0 black; */
+    transform: scale(1.1);
+    transition: .3s ease-in-out;
+}
+
+.login-button:active {
+    color: white;
+    /* box-shadow: inset 6.5em 0 0 0 black; */
+    transform: scale(0.9);
+    transition: .3s ease-in-out;
+}
+
+/* #DA2C38 */
+
+.dashboard-button {
+    font-size: 17px;
+    font-weight: bold;
+    padding-inline: 20px;
+    color: white;
+    box-shadow: 0 0 0 0 #1D2F6F, inset 6em 3.5em 0 0 #1D2F6F;
+    /* background: none;
+    border: 2px solid;
+    font: inherit;
+    line-height: 1;
+    margin: 0.5em;
+    padding: 1em 2em; */
+    
+    transition: .3s ease-in-out;
+}
+
+.dashboard-button:hover {
+    color: #1D2F6F;
+    box-shadow: 0.3em 0.3em 0 0 #1D2F6F, inset 0.3em 0.3em 0 0 #1D2F6F;
+    transition: .3s ease-in-out;
+
+}
+
+
