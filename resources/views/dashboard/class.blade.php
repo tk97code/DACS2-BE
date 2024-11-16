@@ -19,7 +19,7 @@
         <!-- <nav aria-label="breadcrumb">
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item active" aria-current="page">
-                        <a href={{route('create-test.index')}}>Create test</a> <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                        <a href={{route('test.index')}}>Create test</a> <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
                     </li>
                 </ul>
             </nav> -->

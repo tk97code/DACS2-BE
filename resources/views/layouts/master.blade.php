@@ -4,16 +4,16 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Purple Admin</title>
+    <title>EduWell - Dashboard</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href={{asset("assets/vendors/mdi/css/materialdesignicons.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/vendors/ti-icons/css/themify-icons.css")}}>
     <link rel="stylesheet" href={{asset("assets/vendors/css/vendor.bundle.base.css")}}>
-    <link rel="stylesheet" href={{asset("assets/vendors/font-awesome/css/font-awesome.min.css")}}>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    <!-- <link rel="stylesheet" href={{asset("assets/vendors/font-awesome/css/font-awesome.min.css")}}> -->
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href={{asset("assets/vendors/font-awesome/css/font-awesome.min.css")}}>
-    <link rel="stylesheet" href={{asset("assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css")}}>
+    <!-- <link rel="stylesheet" href={{asset("assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css")}}> -->
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
@@ -50,10 +50,11 @@
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src={{asset(path: "assets/vendors/js/vendor.bundle.base.js")}}></script>
+    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src={{asset("assets/vendors/chart.js/chart.umd.js")}}></script>
-    <script src={{asset("assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js")}}></script>
+    <!-- <script src={{asset("assets/vendors/chart.js/chart.umd.js")}}></script> -->
+    <!-- <script src={{asset("assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js")}}></script> -->
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src={{asset("assets/js/off-canvas.js")}}></script>
@@ -64,6 +65,8 @@
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src={{asset("assets/js/dashboard.js")}}></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <!-- End custom js for this page -->
   </body>
 </html>

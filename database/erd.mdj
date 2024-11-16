@@ -3832,6 +3832,26 @@
 							"subViews": [
 								{
 									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGTMBfM0lrMv5E=",
+									"_parent": {
+										"$ref": "AAAAAAGGhEkGzqOGu3g="
+									},
+									"font": "Arial;13;0",
+									"parentStyle": false,
+									"left": 651,
+									"top": 1107,
+									"width": 42.63720703125,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGGhEkGzqOGu3g="
+									},
+									"edgePosition": 1,
+									"text": "ma_lop"
+								},
+								{
+									"_type": "EdgeLabelView",
 									"_id": "AAAAAAGGhEkGzqOIfZU=",
 									"_parent": {
 										"$ref": "AAAAAAGGhEkGzqOGu3g="
@@ -3876,6 +3896,9 @@
 							},
 							"lineStyle": 2,
 							"points": "672:497;672:1128;1336:1128",
+							"nameLabel": {
+								"$ref": "AAAAAAGTMBfM0lrMv5E="
+							},
 							"tailNameLabel": {
 								"$ref": "AAAAAAGGhEkGzqOIfZU="
 							},

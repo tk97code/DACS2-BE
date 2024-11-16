@@ -11,7 +11,7 @@
                     <span class="font-weight-bold mb-2">{{Auth::user()->name}}</span>
                     <span class="text-secondary text-small">{{Auth::user()->permission->permission_name}}</span>
                 </div>
-                <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+                <!-- <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i> -->
             </a>
         </li>
         <li class="nav-item">
@@ -27,8 +27,8 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href={{route('dashboard.exam')}}>
-                <span class="menu-title">Exam</span>
+            <a class="nav-link" href={{route('test.index')}}>
+                <span class="menu-title">Test</span>
                 <i class="mdi mdi-note-text-outline menu-icon"></i>
             </a>
         </li>

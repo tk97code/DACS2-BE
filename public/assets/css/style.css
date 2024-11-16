@@ -8383,6 +8383,7 @@
   --bs-gray-800: #343a40;
   --bs-gray-900: #212529;
   --bs-primary: #b66dff;
+  /* --bs-primary: #dc8cdb; */
   --bs-secondary: #c3bdbd;
   --bs-success: #1bcfb4;
   --bs-info: #198ae3;
@@ -8391,6 +8392,7 @@
   --bs-light: #f8f9fa;
   --bs-dark: #3e4b5b;
   --bs-primary-rgb: 182, 109, 255;
+  /* --bs-primary-rgb: 220, 140, 219; */
   --bs-secondary-rgb: 195, 189, 189;
   --bs-success-rgb: 27, 207, 180;
   --bs-info-rgb: 25, 138, 227;
@@ -10729,7 +10731,7 @@ textarea.form-control-lg {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border: var(--bs-border-width) solid var(--bs-border-color);
+  /* border: var(--bs-border-width) solid var(--bs-border-color); */
   print-color-adjust: exact;
 }
 .form-check-input[type=checkbox] {
@@ -23678,11 +23680,12 @@ select.border-dark.tt-query:focus,
 select.border-dark.tt-hint:focus, .select2-container--default .select2-selection--single select.border-dark.select2-search__field:focus, .select2-container--default select.border-dark.select2-selection--single:focus {
   outline: 1px solid #3e4b5b;
 }
+
 select.form-select {
   padding: 0.4375rem 0.75rem;
   border: 0;
   outline: 1px solid #ebedf2;
-  color: #c9c8c8;
+  color: #000;
 }
 select.form-select:focus {
   outline: 1px solid #ebedf2;
@@ -25175,7 +25178,7 @@ dl li {
   padding: 0.25rem 0;
   width: 100%;
   text-align: left;
-  padding-left: 2.25rem;
+  padding-left: 25%;
 }
 .navbar .navbar-brand-wrapper .navbar-brand:active, .navbar .navbar-brand-wrapper .navbar-brand:focus, .navbar .navbar-brand-wrapper .navbar-brand:hover {
   color: #1b2658;

@@ -9,4 +9,10 @@ class QuestionOptionModel extends Model
     protected $table = 'question_option';
 
     protected $primaryKey = 'question_id';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'option_id', 'question_id', 'option_content', 'is_answer'
+    ];
 }

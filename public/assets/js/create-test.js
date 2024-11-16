@@ -102,8 +102,8 @@ function createEditor(editorContainer) {
                     // Khởi tạo câu hỏi mới
                     currentQuestion = {
                         lineNumber: index + 1,
-                        content: line.substring(1).trim(), // Nội dung câu hỏi
-                        options: [], // Mảng các lựa chọn
+                        question_content: line.substring(1).trim(), // Nội dung câu hỏi
+                        question_options: [], // Mảng các lựa chọn
                         answer: null // Câu trả lời đúng
                     };
                 } else if (currentQuestion && line !== "") {
@@ -111,7 +111,7 @@ function createEditor(editorContainer) {
                     const isCorrect = line.startsWith("*");
                     const optionText = isCorrect ? line.substring(1).trim() : line;
 
-                    currentQuestion.options.push(optionText);
+                    currentQuestion.question_options.push(optionText);
                     if (isCorrect) {
                         currentQuestion.answer = optionText;
                     }
@@ -165,7 +165,7 @@ function createEditor(editorContainer) {
 
     function showQuestionDetail(question) {
         const questionDetailDiv = document.createElement("div");
-        questionDetailDiv.innerHTML = `<strong>Cau ${button_index + 1}: ${question.content}</strong><br>`;
+        questionDetailDiv.innerHTML = `<strong>Cau ${button_index + 1}: ${question.question_content}</strong><br>`;
         
         // Xóa các chi tiết cũ
         const contentPreview = document.getElementById("content-preview");
@@ -176,7 +176,7 @@ function createEditor(editorContainer) {
         // displayQuestions(questions_arr);
 
         // Thêm chi tiết câu hỏi
-        question.options.forEach((option, i) => {
+        question.question_options.forEach((option, i) => {
             const optionDiv = document.createElement("div");
             optionDiv.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
             if (option === question.answer) {
