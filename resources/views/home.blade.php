@@ -66,7 +66,13 @@ https://templatemo.com/tm-573-eduwell
               @if (!$isLogin)
               <li class="scroll-to-section"><button class="login-button btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" onclick="window.location.href=`{{ route('auth.index') }}`">Log in</button></li>
               @else
-              <li class="scroll-to-section"><button class="dashboard-button btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" onclick="window.location.href=`{{ route('dashboard.index') }}`">Dashboard</button></li>
+              
+                @if (Auth::user()->permission_id != 1)
+                <li class="scroll-to-section"><button class="dashboard-button btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" onclick="window.location.href=`{{ route('teacher.dashboard.index') }}`">Dashboard</button></li>
+                @else
+                <li class="scroll-to-section"><button class="dashboard-button btn d-lg-inline-block mb-3 mb-md-0 ml-md-3" onclick="window.location.href=`{{ route('student.dashboard.index') }}`">Dashboard</button></li>
+                @endif
+                
               @endif
             </ul>
             <a class='menu-trigger'>

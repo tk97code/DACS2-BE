@@ -7,16 +7,20 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemoUploadController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\StudentClassController;
+use App\Http\Controllers\StudentResultController;
+use App\Http\Controllers\StudentTestController;
+use App\Http\Controllers\TeacherClassController;
+use App\Http\Controllers\TeacherTestController;
 use App\Http\Controllers\TestController;
-use App\Http\Controllers\TestResourceController;
-use App\Http\Controllers\TestsController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\CheckPermissionMiddleware;
+use App\Http\Middleware\ClassPermissionMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 
-Route::prefix('/auth')->middleware('guest')->group(function() {
+Route::prefix('/auth')->middleware('guest')->group(function () {
     Route::get('/', [AuthController::class, 'index'])->name('auth.index');
     Route::post('/login', [AuthController::class, 'handleLogin'])->name(name: 'auth.login');
     Route::post('/register', [AuthController::class, 'handleRegister'])->name('auth.register');
@@ -28,32 +32,44 @@ Route::prefix('/auth')->middleware('guest')->group(function() {
     Route::post('/permission', [AuthController::class, 'handlePermission'])->withoutMiddleware('guest')->name('auth.permission.handle');
 });
 
-Route::prefix('/dashboard')->middleware(AuthMiddleware::class)->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard.index');
-    Route::get('/upload-file', [DemoUploadController::class, 'index'])->middleware([CheckPermissionMiddleware::class])->name('dashboard.upload-file.index');
-    Route::post('/upload-file', [DemoUploadController::class, 'handleUpload'])->name('dashboard.upload-file.handle');
-    // Route::prefix('/exam')->group(function () {
-    //     Route::get('/', [DashboardController::class, 'examIndex'])->name('dashboard.exam');
-    //     Route::get('/create-test', [TestsController::class, 'index'])->name('create-test.index');
-    //     Route::post('/create-test', [TestsController::class, 'handleCreateTest'])->name('test.create');
-    //     Route::post('/create-question', [QuestionController::class, 'handleCreateQuestion'])->name('question.create');
-    // });
-
-    Route::resource('test', TestController::class);
-    Route::prefix('test')->group(function() {
-        Route::resource('question', QuestionController::class);
-    });
-
-    Route::prefix('/class')->group(function () {
-        Route::get('/', [ClassController::class, 'index'])->name('class.index');
-        Route::post('/create-class', [ClassController::class, 'handleCreateclass'])->name('class.create');
+Route::prefix('teacher')->group(function () {
+    Route::prefix('dashboard')->middleware(AuthMiddleware::class)->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('teacher.dashboard.index');
+        Route::get('/upload-file', [DemoUploadController::class, 'index'])->middleware([CheckPermissionMiddleware::class])->name('dashboard.upload-file.index');
+        Route::post('/upload-file', [DemoUploadController::class, 'handleUpload'])->name('dashboard.upload-file.handle');
+        
+        Route::resource('test', TeacherTestController::class, ['as' => 'teacher.dashboard']);
+        Route::prefix('test')->group(function () {
+            Route::resource('question', QuestionController::class);
+        });
+        
+        Route::resource('class', TeacherClassController::class, ['as' => 'teacher.dashboard']);
+        // Route::prefix('/class')->group(function () {
+            //     Route::get('/', [ClassController::class, 'index'])->name('class.index');
+            //     Route::post('/create-class', [ClassController::class, 'handleCreateclass'])->name('class.create');
+            // });
+            // Route::prefix('/exam')->group(function () {
+            //     Route::get('/', [DashboardController::class, 'examIndex'])->name('dashboard.exam');
+            //     Route::get('/create-test', [TestsController::class, 'index'])->name('create-test.index');
+            //     Route::post('/create-test', [TestsController::class, 'handleCreateTest'])->name('test.create');
+            //     Route::post('/create-question', [QuestionController::class, 'handleCreateQuestion'])->name('question.create');
+            // });
+            
     });
 });
 
 
+Route::prefix('student')->group(function() {
+    Route::prefix('dashboard')->middleware(AuthMiddleware::class)->group(function() {
+        Route::get('/', [DashboardController::class, 'index'])->name('student.dashboard.index');
 
+        Route::resource('class', StudentClassController::class, ['as' => 'student.dashboard'])->only(['index', 'show', 'destroy', 'store']);
 
-
-
-
-
+        Route::resource('test', StudentTestController::class, ['as' => 'student.dashboard'])->only(['index', 'show']);
+        Route::prefix('test/{id}')->group(function() {
+            Route::post('update-elapsed-time', [StudentResultController::class, 'updateElapsedTime'])->name('result.updateElapsedTime');
+            Route::post('get-time-passed', [StudentResultController::class, 'getTimePassed'])->name('result.getTimePassed');
+            Route::post('store-result', [StudentResultController::class, 'storeResult'])->name('result.storeResult');
+        });
+    });
+});

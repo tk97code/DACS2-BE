@@ -9,7 +9,7 @@
     <link rel="stylesheet" href={{asset("assets/vendors/mdi/css/materialdesignicons.min.css")}}>
     <link rel="stylesheet" href={{asset("assets/vendors/ti-icons/css/themify-icons.css")}}>
     <link rel="stylesheet" href={{asset("assets/vendors/css/vendor.bundle.base.css")}}>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    <!-- <link rel="stylesheet" href={{asset("assets/vendors/font-awesome/css/font-awesome.min.css")}}> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    <link rel="stylesheet" href={{asset("assets/vendors/font-awesome/css/font-awesome.min.css")}}>
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <link rel="stylesheet" href={{asset("assets/vendors/font-awesome/css/font-awesome.min.css")}}>
@@ -18,9 +18,11 @@
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href={{asset("assets/css/style.css")}}>
+    <link rel="stylesheet" type="text/css" href={{asset("assets/css/style.css")}}>
     <!-- End layout styles -->
     <link rel="shortcut icon" href={{asset("assets/images/favicon.png")}}>
+
+    <script src={{asset('vendor/jquery/jquery.min.js')}}></script>
   </head>
   <body>
     <div class="container-scroller">
@@ -51,6 +53,7 @@
     <!-- plugins:js -->
     <script src={{asset(path: "assets/vendors/js/vendor.bundle.base.js")}}></script>
     <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
     <!-- <script src={{asset("assets/vendors/chart.js/chart.umd.js")}}></script> -->
@@ -61,7 +64,7 @@
     <script src={{asset("assets/js/misc.js")}}></script>
     <script src={{asset("assets/js/settings.js")}}></script>
     <script src={{asset("assets/js/todolist.js")}}></script>
-    <script src={{asset("assets/js/jquery.cookie.js")}}></script>
+    <!-- <script src={{asset("assets/js/jquery.cookie.js")}}></script> -->
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src={{asset("assets/js/dashboard.js")}}></script>
@@ -69,4 +72,5 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <!-- End custom js for this page -->
   </body>
+
 </html>

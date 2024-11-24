@@ -31,7 +31,12 @@ class GoogleAuthController extends Controller
 
                 Auth::login($finduser);
 
-                return redirect()->intended(route('dashboard.index'));
+                if (Auth::user()->permission_id !== 1) {
+                    return redirect()->intended(route('teacher.dashboard.index'));
+                }
+                return redirect()->intended(route('student.dashboard.index'));
+
+
             } else {
                 $newUser = User::create([
                     'name' => $user->name,
@@ -42,7 +47,7 @@ class GoogleAuthController extends Controller
 
                 Auth::login($newUser);
 
-                return redirect()->intended(route('dashboard.index'));
+                return redirect()->intended(route('teacher.dashboard.index'));
             }
 
             request()->session()->regenerate();

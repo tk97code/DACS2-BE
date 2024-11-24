@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/base.min.css"
+/>
+<!-- Or versioned -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/base.min.css"
+/>
+
+<!-- Include Choices CSS -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
+/>
+<!-- Or versioned -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"
+/>
+
+<style>
+
+.choices__inner {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    background-color: #f8f9fa;
+}
+
+.choices__item--selectable {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.choices__list--dropdown {
+    border-radius: 5px;
+}
+
+</style>
+
+</head>
+<body>
+    
+    <select class="form-select choices" name="class_id" id="class_id" multiple required>
+        <option value="" selected>No class (everyone can access)</option>
+            <option value="{{$class->class_id}}">{{$class->class_name}}</option>
+            <option value="{{$class->class_id}}">{{$class->class_name}}</option>
+            <option value="{{$class->class_id}}">{{$claclass_name}}</option>
+            <option value="{{$class->class_id}}">{{$class->class_name}}</option>
+            <option value="{{$class->class_id}}">{{$class->claasdfs_name}}</option>
+            <option value="{{$class->class_id}}">{{$class->ame}}</option>
+            <option value="{{$class->class_id}}">{{$class->aasdfasde}}</option>
+            <option value="{{$class->class_id}}">{{$class->zxcwqerame}}</option>
+    </select>
+
+    <button onclick="handle()">Handle</button>
+
+
+    <script src="../public/vendor/jquery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
+    <script src="{{asset('assets/vendors/flatpickr/flatpickr.js')}}"></script> -->
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+
+    <!-- Include Choices JavaScript (latest) -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <!-- Or versioned -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+
+    <script>
+
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const elements = document.querySelectorAll('.choices');
+            elements.forEach(element => {
+                new Choices(element, {
+                    removeItemButton: true, // Cho phép xóa các lựa chọn
+                    placeholderValue: 'Select class', // Placeholder
+                    noResultsText: 'No matches found', // Text khi không có kết quả
+                    maxItemCount: -1, // Giới hạn số lượng chọn
+                    searchPlaceholderValue: 'Search for classes...', // Placeholder của thanh tìm kiếm
+                });
+            });
+        });
+
+        function handle() {
+            let selectedClasses = $('#class_id').val();
+
+            console.log(selectedClasses);
+
+        }
+
+
+    </script>
+
+</body>
+</html>

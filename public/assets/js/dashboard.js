@@ -66,103 +66,103 @@
     const bgColor2 = ["rgba(54, 215, 232, 1"];
     const bgColor3 = ["rgba(255, 191, 150, 1)"];
 
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
-        datasets: [{
-          label: "CHN",
-          borderColor: gradientStrokeViolet,
-          backgroundColor: gradientStrokeViolet,
-          fillColor: bgColor1,
-          hoverBackgroundColor: gradientStrokeViolet,
-          pointRadius: 0,
-          fill: false,
-          borderWidth: 1,
-          fill: 'origin',
-          data: [20, 40, 15, 35, 25, 50, 30, 20],
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
-        },
-        {
-          label: "USA",
-          borderColor: gradientStrokeRed,
-          backgroundColor: gradientStrokeRed,
-          hoverBackgroundColor: gradientStrokeRed,
-          fillColor: bgColor2,
-          pointRadius: 0,
-          fill: false,
-          borderWidth: 1,
-          fill: 'origin',
-          data: [40, 30, 20, 10, 50, 15, 35, 40],
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
-        },
-        {
-          label: "UK",
-          borderColor: gradientStrokeBlue,
-          backgroundColor: gradientStrokeBlue,
-          hoverBackgroundColor: gradientStrokeBlue,
-          fillColor: bgColor3,
-          pointRadius: 0,
-          fill: false,
-          borderWidth: 1,
-          fill: 'origin',
-          data: [70, 10, 30, 40, 25, 50, 15, 30],
-          barPercentage: 0.5,
-          categoryPercentage: 0.5,
-        }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        elements: {
-          line: {
-            tension: 0.4,
-          },
-        },
-        scales: {
-          y: {
-            display: false,
-            grid: {
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-            },
-          },
-          x: {
-            display: true,
-            grid: {
-              display: false,
-            },
-          }
-        },
-        plugins: {
-          legend: {
-            display: false,
-          }
-        }
-      },
-      plugins: [{
-        afterDatasetUpdate: function (chart, args, options) {
-          const chartId = chart.canvas.id;
-          var i;
-          const legendId = `${chartId}-legend`;
-          const ul = document.createElement('ul');
-          for (i = 0; i < chart.data.datasets.length; i++) {
-            ul.innerHTML += `
-              <li>
-                <span style="background-color: ${chart.data.datasets[i].fillColor}"></span>
-                ${chart.data.datasets[i].label}
-              </li>
-            `;
-          }
-          // alert(chart.data.datasets[0].backgroundColor);
-          return document.getElementById(legendId).appendChild(ul);
-        }
-      }]
-    });
+    // new Chart(ctx, {
+    //   type: 'bar',
+    //   data: {
+    //     labels: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG'],
+    //     datasets: [{
+    //       label: "CHN",
+    //       borderColor: gradientStrokeViolet,
+    //       backgroundColor: gradientStrokeViolet,
+    //       fillColor: bgColor1,
+    //       hoverBackgroundColor: gradientStrokeViolet,
+    //       pointRadius: 0,
+    //       fill: false,
+    //       borderWidth: 1,
+    //       fill: 'origin',
+    //       data: [20, 40, 15, 35, 25, 50, 30, 20],
+    //       barPercentage: 0.5,
+    //       categoryPercentage: 0.5,
+    //     },
+    //     {
+    //       label: "USA",
+    //       borderColor: gradientStrokeRed,
+    //       backgroundColor: gradientStrokeRed,
+    //       hoverBackgroundColor: gradientStrokeRed,
+    //       fillColor: bgColor2,
+    //       pointRadius: 0,
+    //       fill: false,
+    //       borderWidth: 1,
+    //       fill: 'origin',
+    //       data: [40, 30, 20, 10, 50, 15, 35, 40],
+    //       barPercentage: 0.5,
+    //       categoryPercentage: 0.5,
+    //     },
+    //     {
+    //       label: "UK",
+    //       borderColor: gradientStrokeBlue,
+    //       backgroundColor: gradientStrokeBlue,
+    //       hoverBackgroundColor: gradientStrokeBlue,
+    //       fillColor: bgColor3,
+    //       pointRadius: 0,
+    //       fill: false,
+    //       borderWidth: 1,
+    //       fill: 'origin',
+    //       data: [70, 10, 30, 40, 25, 50, 15, 30],
+    //       barPercentage: 0.5,
+    //       categoryPercentage: 0.5,
+    //     }
+    //     ]
+    //   },
+    //   options: {
+    //     responsive: true,
+    //     maintainAspectRatio: true,
+    //     elements: {
+    //       line: {
+    //         tension: 0.4,
+    //       },
+    //     },
+    //     scales: {
+    //       y: {
+    //         display: false,
+    //         grid: {
+    //           display: true,
+    //           drawOnChartArea: true,
+    //           drawTicks: false,
+    //         },
+    //       },
+    //       x: {
+    //         display: true,
+    //         grid: {
+    //           display: false,
+    //         },
+    //       }
+    //     },
+    //     plugins: {
+    //       legend: {
+    //         display: false,
+    //       }
+    //     }
+    //   },
+    //   plugins: [{
+    //     afterDatasetUpdate: function (chart, args, options) {
+    //       const chartId = chart.canvas.id;
+    //       var i;
+    //       const legendId = `${chartId}-legend`;
+    //       const ul = document.createElement('ul');
+    //       for (i = 0; i < chart.data.datasets.length; i++) {
+    //         ul.innerHTML += `
+    //           <li>
+    //             <span style="background-color: ${chart.data.datasets[i].fillColor}"></span>
+    //             ${chart.data.datasets[i].label}
+    //           </li>
+    //         `;
+    //       }
+    //       // alert(chart.data.datasets[0].backgroundColor);
+    //       return document.getElementById(legendId).appendChild(ul);
+    //     }
+    //   }]
+    // });
   }
 
   $('.logout-btn').click((e) => {
@@ -196,73 +196,73 @@
     // const bgColor2 = ["rgba(255, 191, 150, 1"];
     // const bgColor3 = ["rgba(6, 185, 157, 1)"];
 
-    new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Search Engines 30%', 'Direct Click 30%', 'Bookmarks Click 40%'],
-        datasets: [{
-          data: [30, 30, 40],
-          backgroundColor: [gradientStrokeBlue, gradientStrokeGreen, gradientStrokeRed],
-          hoverBackgroundColor: [
-            gradientStrokeBlue,
-            gradientStrokeGreen,
-            gradientStrokeRed
-          ],
-          borderColor: [
-            gradientStrokeBlue,
-            gradientStrokeGreen,
-            gradientStrokeRed
-          ],
-          legendColor: [
-            gradientLegendBlue,
-            gradientLegendGreen,
-            gradientLegendRed
-          ]
-        }]
-      },
-      options: {
-        cutout: 50,
-        animationEasing: "easeOutBounce",
-        animateRotate: true,
-        animateScale: false,
-        responsive: true,
-        maintainAspectRatio: true,
-        showScale: true,
-        legend: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        }
-      },
-      plugins: [{
-        afterDatasetUpdate: function (chart, args, options) {
-          const chartId = chart.canvas.id;
-          var i;
-          const legendId = `${chartId}-legend`;
-          const ul = document.createElement('ul');
-          for (i = 0; i < chart.data.datasets[0].data.length; i++) {
-            ul.innerHTML += `
-                <li>
-                  <span style="background-color: ${chart.data.datasets[0].legendColor[i]}"></span>
-                  ${chart.data.labels[i]}
-                </li>
-              `;
-          }
-          return document.getElementById(legendId).appendChild(ul);
-        }
-      }]
-    });
+    // new Chart(ctx, {
+    //   type: 'doughnut',
+    //   data: {
+    //     labels: ['Search Engines 30%', 'Direct Click 30%', 'Bookmarks Click 40%'],
+    //     datasets: [{
+    //       data: [30, 30, 40],
+    //       backgroundColor: [gradientStrokeBlue, gradientStrokeGreen, gradientStrokeRed],
+    //       hoverBackgroundColor: [
+    //         gradientStrokeBlue,
+    //         gradientStrokeGreen,
+    //         gradientStrokeRed
+    //       ],
+    //       borderColor: [
+    //         gradientStrokeBlue,
+    //         gradientStrokeGreen,
+    //         gradientStrokeRed
+    //       ],
+    //       legendColor: [
+    //         gradientLegendBlue,
+    //         gradientLegendGreen,
+    //         gradientLegendRed
+    //       ]
+    //     }]
+    //   },
+    //   options: {
+    //     cutout: 50,
+    //     animationEasing: "easeOutBounce",
+    //     animateRotate: true,
+    //     animateScale: false,
+    //     responsive: true,
+    //     maintainAspectRatio: true,
+    //     showScale: true,
+    //     legend: false,
+    //     plugins: {
+    //       legend: {
+    //         display: false,
+    //       }
+    //     }
+    //   },
+    //   plugins: [{
+    //     afterDatasetUpdate: function (chart, args, options) {
+    //       const chartId = chart.canvas.id;
+    //       var i;
+    //       const legendId = `${chartId}-legend`;
+    //       const ul = document.createElement('ul');
+    //       for (i = 0; i < chart.data.datasets[0].data.length; i++) {
+    //         ul.innerHTML += `
+    //             <li>
+    //               <span style="background-color: ${chart.data.datasets[0].legendColor[i]}"></span>
+    //               ${chart.data.labels[i]}
+    //             </li>
+    //           `;
+    //       }
+    //       return document.getElementById(legendId).appendChild(ul);
+    //     }
+    //   }]
+    // });
   }
 
 
 
-  if ($("#inline-datepicker").length) {
-    $('#inline-datepicker').datepicker({
-      enableOnReadonly: true,
-      todayHighlight: true,
-    });
-  }
+  // if ($("#inline-datepicker").length) {
+  //   $('#inline-datepicker').datepicker({
+  //     enableOnReadonly: true,
+  //     todayHighlight: true,
+  //   });
+  // }
 
   if ($(".navbar").hasClass("fixed-top")) {
     document.querySelector('.page-body-wrapper').classList.remove('pt-0');

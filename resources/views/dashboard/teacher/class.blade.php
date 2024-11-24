@@ -162,7 +162,7 @@
             data.append('creator_id', '{{Auth::user()->id}}');
             $.ajax({
                 type: 'post',
-                url: "{{route('class.create')}}",
+                url: "{{route('teacher.dashboard.class.create')}}",
                 data: data,
                 dataType: 'json',
                 contentType:false,

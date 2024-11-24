@@ -14,6 +14,15 @@ class TestModel extends Model
 
     protected $fillable = [
         'test_id', 'test_name', 'creator_id', 'created_on', 'start_at', 'end_at',
-        'time_do_test', 'allow_show_anwser', 'allow_show_mark', 'is_shuffle', 'class_id'
+        'time_do_test', 'allow_show_answer', 'allow_show_mark', 'is_shuffle'
     ];
+
+    public function classes() {
+        return $this->belongsToMany(ClassModel::class, 'test_delivery', 'test_id', 'class_id');
+    }
+
+    public static function getTestDetail($test_id) {
+        $test = TestModel::where('test_id', $test_id)->first();
+        return $test;
+    }
 }

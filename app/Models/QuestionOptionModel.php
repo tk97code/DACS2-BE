@@ -15,4 +15,10 @@ class QuestionOptionModel extends Model
     protected $fillable = [
         'option_id', 'question_id', 'option_content', 'is_answer'
     ];
+
+    // public static function getQuestionOption($question_id) {
+    //     $options = QuestionOptionModel::where('question_id', $question_id)->get();
+        
+    //     return $options;
+    // }
 }

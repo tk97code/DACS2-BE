@@ -137,7 +137,7 @@
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item logout-btn">
                   <i class="mdi mdi-logout me-2 text-primary"></i> Signout </button>
-                
+
                   <form action={{route('auth.logout')}} method="POST" id="logout-form" hidden>
                     @csrf
                   </form>

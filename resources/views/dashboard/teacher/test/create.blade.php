@@ -5,6 +5,20 @@
 
 <head>
     <style>
+        .choices__inner {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            background-color: #f8f9fa;
+        }
+
+        .choices__item--selectable {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+
+        .choices__list--dropdown {
+            border-radius: 5px;
+        }
         .editor {
             width: 100%;
             /* margin: 50px auto 40px; */
@@ -75,6 +89,13 @@
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/flatpickr/flatpickr.min.css')}}">
 
+    <!-- <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/base.min.css" />                                                                    -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css" />
+
 </head>
 
 
@@ -86,13 +107,6 @@
             </span> Exam/Create test
         </h3>
     </div>
-
-    <!-- <form action={{route('test.create')}} method="post">
-        @csrf
-        <input type="text" name="nasme">
-        <button type="submit">asdfsd</button>
-    </form> -->
-
 
     <div class="row form-create-test">
         <div class="container my-4">
@@ -111,9 +125,9 @@
                             <label class="form-label">
                                 Class:
                             </label>
-                            <select class="form-select" name="class_id" id="class_id" required>
-                                <option disabled selected>Select class</option>
-                                <option value="">No class (everyone can access)</option>
+                            <select class="form-select choices" name="class_id" id="class_id" multiple required>
+                                <!-- <option disabled selected>Select class</option> -->
+                                <option value="0">No class (everyone can access)</option>
                                 @foreach ($classes as $class)
                                 <option value="{{$class->class_id}}">{{$class->class_name}}</option>
                                 @endforeach
@@ -125,11 +139,10 @@
                                 Open Test:
                             </label>
                             <!-- <div class="selector"></div> -->
-                            <div class="d-flex">
-
+                            <div class="d-flex input-group">
                                 <input type="text" class="start_at form-control date-form" placeholder="Start time" data-input>
-
-                                <input type="text" class="end_at form-control date-form mx-2" placeholder="End time" data-input>
+                                <span class="input-group-text">to</span>
+                                <input type="text" class="end_at form-control date-form" placeholder="End time" data-input>
                             </div>
                         </div>
 
@@ -215,7 +228,27 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
 <script type="module" src={{asset('assets/js/create-test.js')}}></script>
 
+<!-- Include Choices JavaScript (latest) -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+<!-- Or versioned -->
+<script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+
 <script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const elements = document.querySelectorAll('.choices');
+        elements.forEach(element => {
+            new Choices(element, {
+                removeItemButton: true, // Cho phép xóa các lựa chọn
+                placeholderValue: 'Select class', // Placeholder
+                noResultsText: 'No matches found', // Text khi không có kết quả
+                maxItemCount: -1, // Giới hạn số lượng chọn
+                searchPlaceholderValue: 'Search for classes...', // Placeholder của thanh tìm kiếm
+                shouldSort: false
+            });
+        });
+    });
+
     $(document).ready(() => {
 
         flatpickr(".date-form", {
@@ -223,7 +256,7 @@
             format: 'DD:MM:YYYY HH:ii'
         });
 
-        // $('.form-create-question').hide();
+        $('.form-create-question').hide();
 
         let testData = {
             _token: '{{csrf_token()}}',
@@ -246,7 +279,7 @@
 
         $('.next-button').click((e) => {
             testData.test_name = $('.test_name').val();
-            testData.class_id = document.getElementById('class_id').value;
+            testData.class_id = $('#class_id').val();
             testData.start_at = new Date($('.start_at').val()).toISOString().slice(0, 19).replace('T', ' ');
             testData.end_at = new Date($('.end_at').val()).toISOString().slice(0, 19).replace('T', ' ');
             testData.time_do_test = $('.time_do_test').val();
@@ -260,10 +293,13 @@
                 formData.append(key, testData[key]);
             }
 
-            
+
+            // console.log(testData.class_id);
+
+
             $.ajax({
                 type: 'POST',
-                url: "{{route('test.store')}}",
+                url: "{{route('teacher.dashboard.test.store')}}",
                 data: formData,
                 dataType: 'json',
                 contentType: false,
@@ -307,78 +343,6 @@
             });
         });
 
-
-
-
-
-
-
-        // HEAD: merge question and test data
-        // let testData = {
-        //     _token: '{{csrf_token()}}',
-        //     test_name: '',
-        //     creator: "{{Auth::user()->id}}",
-        //     class_id: '',
-        //     start_at: '',
-        //     end_at: '',
-        //     time_do_test: '',
-        //     allow_show_answer: '',
-        //     allow_show_mark: '',
-        //     is_shuffle: '',
-        //     questions: [] // Mảng để lưu các câu hỏi
-        // };
-
-        // $('.next-button').click((e) => {
-        //     e.preventDefault();
-
-        //     // Lưu dữ liệu form bài thi vào biến tạm testData
-        //     testData.test_name = $('.test_name').val();
-        //     testData.class_id = document.getElementById('class_id').value;
-        //     testData.start_at = new Date($('.start_at').val());
-        //     testData.end_at = new Date($('.start_at').val());
-        //     testData.time_do_test = $('.time_do_test').val();
-        //     testData.allow_show_answer = Number($('.allow_show_answer').is(':checked'));
-        //     testData.allow_show_mark = Number($('.allow_show_mark').is(':checked'));
-        //     testData.is_shuffle = Number($('.is_shuffle').is(':checked'));
-
-        //     // Chuyển sang form câu hỏi
-        //     $('.form-create-test').hide();
-        //     $('.form-create-question').show();
-        // });
-
-        // $('#create-test-button').click((e) => {
-        //     e.preventDefault();
-
-        //     // Chuẩn bị dữ liệu để gửi
-        //     let formData = new FormData();
-
-        //     testData.questions.push(questions_arr)
-
-        //     for (let key in testData) {
-        //         if (key === 'questions') {
-        //             // Nếu là mảng câu hỏi, stringify để truyền vào
-        //             formData.append(key, JSON.stringify(testData[key]));
-        //         } else {
-        //             formData.append(key, testData[key]);
-        //         }
-        //     }
-
-        //     // Gửi yêu cầu AJAX lên server
-        //     $.ajax({
-        //         type: 'POST',
-        //         url: "{{route('test.create')}}",
-        //         data: formData,
-        //         dataType: 'json',
-        //         contentType: false,
-        //         processData: false,
-        //         success: function(response) {
-        //             console.log("Request success:", response.status);
-        //             console.log("Request content:", response.request);
-        //             // Có thể thêm logic để chuyển trang hoặc hiển thị thông báo thành công
-        //         }
-        //     });
-        // });
-        // END:
     });
 </script>
 

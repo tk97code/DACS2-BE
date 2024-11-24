@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interface</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .quiz-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .timer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .timer-circle {
+            width: 200px;
+            height: 200px;
+            border: 4px solid #ff0000;
+            border-radius: 50%;
+            margin: 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .finish-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .custom-radio {
+            display: block;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .custom-radio:hover {
+            background-color: #f8f9fa;
+        }
+
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-nav-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #dee2e6;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .question-nav-btn:hover {
+            background-color: #f8f9fa;
+        }
+
+        .box-diagram {
+            width: 100px;
+            margin: 1rem 0;
+        }
+
+        .custom-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .option-button {
+            width: 100%;
+            text-align: left;
+            padding: 1rem 1.5rem;
+            margin-bottom: 0.75rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .option-button:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .option-button.selected {
+            border-color: #e2e8f0;
+            background: #ccc;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .checkmark {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            color: #4fd1c5;
+            display: none;
+        }
+
+        .option-button.selected .checkmark {
+            display: block;
+        }
+
+.title {
+    color: #fff;
+    line-height: 65px;
+    text-align: center;
+    background: #233;
+    font-size: 25px;
+    font-weight: 500;
+    border-radius: 10px 10px 0 0;
+}
+
+.box {
+    padding: 20px 30px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.box label {
+    display: flex;
+    height: 53px;
+    width: 100%;
+    align-items: center;
+    border: 1px solid lightgrey;
+    border-radius: 50px;
+    margin: 10px 0;
+    padding-left: 20px;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.option-radio:checked~.option-label{
+    background: #333;
+    border-color: #333;
+}
+
+.box label .dot {
+    height: 20px;
+    width: 20px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.option-radio:checked~.option-label .dot {
+    background: #fff;
+}
+
+.box label .dot::before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(2);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.option-radio:checked~.option-label .dot::before{
+    background: #333;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.box label .text {
+    color: #333;
+    font-size: 18px;
+    font-weight: 400;
+    padding-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.option-radio:checked~.option-label .text{
+    color: #fff;
+}
+
+.box input[type="radio"] {
+    display: none;
+}
+
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Question 1 -->
+                <div class="question-card">
+                    <h2 class="h5 mb-4">1. Who is the world's No.1 batsman ?</h2>
+                    <div class="box">
+                        <input type="radio" name="select" class="option-radio" id="option option-1">
+                        <input type="radio" name="select" class="option-radio" id="option-2">
+                        <input type="radio" name="select" class="option-radio" id="option-3">
+                        <input type="radio" name="select" class="option-radio" id="option-4">
+                        <label for="option-1" class="option-1 option-label">
+                            <div class="dot"></div>
+                            <div class="text">Gamer</div>
+                        </label>
+                        <label for="option-2" class="option-2">
+                            <div class="dot"></div>
+                            <div class="text">YouTuber</div>
+                        </label>
+                        <label for="option-3" class="option-3">
+                            <div class="dot"></div>
+                            <div class="text">Student</div>
+                        </label>
+                        <label for="option-4" class="option-4">
+                            <div class="dot"></div>
+                            <div class="text">Developer</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-card">
+                    <h2 class="h5 mb-4">2. Anime that is streaming more than 1000 episodes</h2>
+                    <div class="form-check custom-radio">
+                        <input class="form-check-input" type="radio" name="q2" id="q2a1">
+                        <label class="form-check-label" for="q2a1">
+                            Naruto
+                        </label>
+                    </div>
+                    <div class="form-check custom-radio">
+                        <input class="form-check-input" type="radio" name="q2" id="q2a2">
+                        <label class="form-check-label" for="q2a2">
+                            One Piece
+                        </label>
+                    </div>
+                    <div class="form-check custom-radio">
+                        <input class="form-check-input" type="radio" name="q2" id="q2a3">
+                        <label class="form-check-label" for="q2a3">
+                            Jujutsu Kaisen
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question-card">
+                    <h2 class="h5 mb-4">3. Choose the box that is similar to the box formed from the given sheet of paper</h2>
+                    <img src="/placeholder.svg?height=100&width=100" alt="Box diagram" class="box-diagram">
+                    <select class="custom-select">
+                        <option selected>Select</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Timer Card -->
+                <div class="timer-card">
+                    <div class="finish-text">FINISH BEFORE</div>
+                    <div class="timer-circle">
+                        Time Up
+                    </div>
+                </div>
+
+                <!-- Question Navigation -->
+                <div class="question-card mt-4">
+                    <div class="question-nav">
+                        <button class="question-nav-btn">1</button>
+                        <button class="question-nav-btn">2</button>
+                        <button class="question-nav-btn">3</button>
+                        <button class="question-nav-btn">4</button>
+                        <button class="question-nav-btn">5</button>
+                        <button class="question-nav-btn">6</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectOption(button) {
+            // Remove selected class from all buttons
+            document.querySelectorAll('.option-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked button
+            button.classList.add('selected');
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

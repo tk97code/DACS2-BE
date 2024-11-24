@@ -10,12 +10,14 @@ class HomeController extends Controller
     public $data = [];
 
     public function index() {
+
+        $isLogin = false;
         
         if (Auth::check()) {
-            $this->data['isLogin'] = true;
+            $isLogin = true;
         } else {
-            $this->data['isLogin'] = false;
+            $isLogin = false;
         }
-        return view("home", $this->data);
+        return view("home", compact('isLogin'));
     }
 }

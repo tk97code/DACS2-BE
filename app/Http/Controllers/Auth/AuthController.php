@@ -16,7 +16,7 @@ class AuthController extends Controller
 
     public function permissionIndex() {
         if (!empty(Auth::user()->permission_id)) {
-            return redirect()->route('dashboard.index');
+            return redirect()->route('teacher.dashboard.index');
         } else {
             if (!empty(Auth::user())) {
                 return view('auth.permission');
@@ -35,7 +35,10 @@ class AuthController extends Controller
         if (Auth::attempt($data)) {
             request()->session()->regenerate();
 
-            return redirect()->intended(route('dashboard.index'));
+            if (Auth::user()->permission_id !== 1) {
+                return redirect()->intended(route('teacher.dashboard.index'));
+            }
+            return redirect()->intended(route('student.dashboard.index'));
         } else {
             return back()->withErrors([
                 'email' => 'Thông tin đăng nhập không chính xác.',
@@ -78,7 +81,10 @@ class AuthController extends Controller
             $user->save();
 
             Auth::setUser($user);
-            return redirect()->route('dashboard.index');
+            if (strtolower(Auth::user()->permission->permission_name) === 'teacher') {
+                return redirect()->intended(route('teacher.dashboard.index'));
+            }
+            return redirect()->intended(route('student.dashboard.index'));
         }
     }
 }

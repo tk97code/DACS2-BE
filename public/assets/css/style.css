@@ -25647,7 +25647,7 @@ dl li {
   background: #ffffff;
   font-family: "ubuntu-regular", sans-serif;
   padding: 0;
-  width: 260px;
+  width: 280px;
   z-index: 11;
   transition: width 0.25s ease, background 0.25s ease;
   -webkit-transition: width 0.25s ease, background 0.25s ease;
@@ -26211,7 +26211,7 @@ dl li {
     max-height: none;
   }
   .sidebar-fixed .main-panel {
-    margin-left: 260px;
+    margin-left: 280px;
   }
   .sidebar-fixed.sidebar-icon-only .main-panel {
     margin-left: 70px;
@@ -26274,9 +26274,9 @@ dl li {
 }
 
 .main-panel {
-  margin-left: 260px;
+  margin-left: 280px;
   transition: width 0.25s ease, margin 0.25s ease;
-  width: calc(100% - 260px);
+  width: calc(100% - 280px);
   min-height: calc(100vh - 70px);
   display: -webkit-flex;
   display: flex;

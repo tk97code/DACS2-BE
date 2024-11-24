@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TestController extends Controller
+class TeacherTestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -61,7 +61,7 @@ class TestController extends Controller
         ]);
 
         // $data['creator_id'] = Auth::user()->id;
-        $testData['created_on'] = Carbon::now()->toDateTimeString();
+        $testData['created_on'] = Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString();
 
 
         $test = TestModel::create($testData);
