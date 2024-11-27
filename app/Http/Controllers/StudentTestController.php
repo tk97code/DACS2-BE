@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\TestPermissionMiddleware;
 use App\Models\QuestionModel;
 use App\Models\QuestionOptionModel;
 use App\Models\ResultModel;
 use App\Models\TestModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 
 class StudentTestController extends Controller
@@ -44,19 +47,25 @@ class StudentTestController extends Controller
         $test_id = $id;
         $questions = QuestionModel::getTestQuestion($test_id);
         $test = TestModel::where('test_id', $test_id)->first();
+        $result = ResultModel::where('test_id', $test_id)->where('id', Auth::user()->id)->first();
+
 
         if (!ResultModel::isEnteredTest(Auth::user()->id, $test_id)) {
-            $reult = ResultModel::create([
-                'test_id' =>  $id,
-                'id' => Auth::user()->id
-            ]);
+            // $reult = ResultModel::create([
+            //     'test_id' =>  $id,
+            //     'id' => Auth::user()->id
+            // ]);
+
+            ResultModel::where('test_id', $test_id)->where('id', Auth::user()->id)
+                ->update([
+                    'enter_time' => Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString()
+                ]);
         }
 
-        $result = ResultModel::where('test_id', $test_id)->where('id', Auth::user()->id)->first();
 
         $curent = Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString();
 
-        $enter = $result->enter_time;
+        $enter = $result->enter_time ?? $curent;
 
 
         $curent_time = Carbon::createFromFormat('Y-m-d H:i:s', $curent)->timezone('Asia/Ho_Chi_Minh');

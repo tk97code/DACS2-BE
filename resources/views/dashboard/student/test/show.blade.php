@@ -129,24 +129,24 @@
             data.append('id', '{{Auth::user()->id}}');
             $.ajax({
                 type: 'POST',
-                url: "{{route('result.getTimePassed', ['id' => $test->test_id])}}",
+                url: "{{route('studentResult.getTimePassed', ['id' => $test->test_id])}}",
                 data: data,
                 processData: false,
                 contentType: false,
                 dataType: 'json',
                 success: (response) => {
                     if (('{{$test->time_do_test}}' * 60 - response.time_passed) < 0) {
-                        document.body.innerHTML = '';
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "You have run out of time to do the test",
-                            icon: 'error',
-                            confirmButtonText: 'Go back'
-                        }).then(function(isConfirm) {
-                            if (isConfirm) {
-                                window.location.href = '{{route("student.dashboard.class.index")}}'
-                            }
-                        })
+                        // document.body.innerHTML = '';
+                        // Swal.fire({
+                        //     title: 'Error!',
+                        //     text: "You have run out of time to do the test",
+                        //     icon: 'error',
+                        //     confirmButtonText: 'Go back'
+                        // }).then(function(isConfirm) {
+                        //     if (isConfirm) {
+                        //         window.location.href = '{{route("student.dashboard.class.index")}}'
+                        //     }
+                        // })
                     } else {
                         if ($('#revese-timer').length) {
 
@@ -178,28 +178,28 @@
                             let remainingPathColor = COLOR_CODES.info.color;
 
                             document.getElementById("revese-timer").innerHTML = `
-    <div class="base-timer">
-    <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <g class="base-timer__circle">
-        <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-        <path
-            id="base-timer-path-remaining"
-            stroke-dasharray="283"
-            class="base-timer__path-remaining ${remainingPathColor}"
-            d="
-            M 50, 50
-            m -45, 0
-            a 45,45 0 1,0 90,0
-            a 45,45 0 1,0 -90,0
-            "
-        ></path>
-        </g>
-    </svg>
-    <span id="base-timer-label" class="base-timer__label">${formatTime(
-        timeLeft
-    )}</span>
-    </div>
-`;
+                                <div class="base-timer">
+                                <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <g class="base-timer__circle">
+                                    <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                                    <path
+                                        id="base-timer-path-remaining"
+                                        stroke-dasharray="283"
+                                        class="base-timer__path-remaining ${remainingPathColor}"
+                                        d="
+                                        M 50, 50
+                                        m -45, 0
+                                        a 45,45 0 1,0 90,0
+                                        a 45,45 0 1,0 -90,0
+                                        "
+                                    ></path>
+                                    </g>
+                                </svg>
+                                <span id="base-timer-label" class="base-timer__label">${formatTime(
+                                    timeLeft
+                                )}</span>
+                                </div>
+                            `;
 
                             startTimer();
 
@@ -274,6 +274,30 @@
                 }
             });
 
+            $.ajax({
+                type: 'POST',
+                url: "{{route('studentResult.getSubmittedStatus', ['id' => $test->test_id])}}",
+                data: data,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: (response) => {
+                    document.body.innerHTML = '';
+                    if (response.submitted) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "This test is submitted",
+                            icon: 'error',
+                            confirmButtonText: 'Go back'
+                        }).then(function(isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = '{{route("student.dashboard.class.index")}}'
+                            }
+                        })
+                    }
+                }
+            });
+
             function getCurrentDateTime() {
                 const now = new Date();
 
@@ -309,8 +333,8 @@
 
             $('.question-nav-btn').click((e) => {
                 let question_id = e.currentTarget.id.replace('btn', 'title');
-                window.scrollTo(0, document.getElementById(question_id).offsetTop - 128 - 30);
-                console.log(e.currentTarget.id);
+                window.scrollTo(0, document.getElementById(question_id).offsetTop - 128 - 32);
+                // console.log(e.currentTarget.id);
             });
 
             $('input[type="radio"].option-radio').on('change', function(e) {
@@ -351,7 +375,7 @@
                 data.append('id', '{{Auth::user()->id}}');
                 $.ajax({
                     type: 'POST',
-                    url: "{{route('result.updateElapsedTime', ['id' => $test->test_id])}}",
+                    url: "{{route('studentResult.updateElapsedTime', ['id' => $test->test_id])}}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -376,7 +400,7 @@
                 data.append('choosed_option_arr', JSON.stringify(choosed_option_arr));
                 $.ajax({
                     type: 'post',
-                    url: "{{route('result.storeResult', ['id' => $test->test_id])}}",
+                    url: "{{route('studentResult.storeResult', ['id' => $test->test_id])}}",
                     data: data,
                     processData: false,
                     contentType: false,

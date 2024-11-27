@@ -23,7 +23,7 @@ class ClassModel extends Model
     public function tests() {
         return $this->belongsToMany(TestModel::class, 'test_delivery', 'class_id', 'test_id');
     }
-    
+
     public static function getTestOfClass($class_id) {
         // Lấy thông tin lớp học
         $class = ClassModel::find($class_id);

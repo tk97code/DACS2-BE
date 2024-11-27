@@ -7,6 +7,7 @@ use App\Models\ClassDetailModel;
 use App\Models\ClassModel;
 use App\Models\ResultModel;
 use App\Models\TestDeliveryModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -79,10 +80,35 @@ class StudentClassController extends Controller implements HasMiddleware
         $tests = ClassModel::getTestOfClass($class_id);
         $class = ClassModel::where('class_id', $class_id)->first();
         $is_entered_test = [];
+        $isOverTime = [];
+        $submitted = [];
         foreach ($tests as $test) {
             $is_entered_test[$test->test_id] = ResultModel::isEnteredTest(Auth::user()->id, $test->test_id);
+            $submitted[$test->test_id] = ResultModel::submitted(Auth::user()->id, $test->test_id);
+
+            $result = ResultModel::where('test_id', $test->test_id)->where('id', Auth::user()->id)->first();
+
+            $curent = Carbon::now('Asia/Ho_Chi_Minh')->toDateTimeString();
+
+
+            // $enter = $result->enter_time;
+
+            $enter = $result->enter_time ?? $curent;
+
+
+            $curent_time = Carbon::createFromFormat('Y-m-d H:i:s', $curent)->timezone('Asia/Ho_Chi_Minh');
+            $enter_time = Carbon::createFromFormat('Y-m-d H:i:s', $enter)->timezone('Asia/Ho_Chi_Minh');
+
+            $time_passed = -$curent_time->diffInSeconds($enter_time);
+            
+            if ($test->time_do_test * 60 - $time_passed < 0) {
+                $isOverTime[$test->test_id] = true;
+            }
         }
-        return view('dashboard.student.class.show', compact('tests', 'class', 'is_entered_test'));
+        return view('dashboard.student.class.show', compact(
+            'tests', 'class', 'is_entered_test', 'isOverTime', 'submitted'
+        ));
+        // return json_encode($isOverTime);
 
     }
 

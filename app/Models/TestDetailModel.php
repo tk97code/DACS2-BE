@@ -13,4 +13,9 @@ class TestDetailModel extends Model
     protected $fillable = [
         'test_id', 'question_id', 'question_index'
     ];
+
+    public static function getNumberOfQuestion($test_id) {
+        return TestDetailModel::where('test_id', operator: $test_id)->count();
+    }
+
 }

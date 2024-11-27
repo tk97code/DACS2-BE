@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ResultDetailModel;
 use App\Models\ResultModel;
+use App\Models\TestDetailModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,10 +61,34 @@ class StudentResultController extends Controller
         ->get();
 
         // Tính số câu trả lời đúng
-        $score = $resultDetails->filter(function ($detail) {
+        $correct = $resultDetails->filter(function ($detail) {
             return $detail->choosedOption && $detail->choosedOption->is_answer;
         })->count();
 
+        $number_of_question = TestDetailModel::getNumberOfQuestion($data['test_id']);
+
+        $score = round((10 / $number_of_question) * $correct, 2);
+
+        ResultModel::where('result_id', $result->result_id)
+        ->update([
+            'score' => $score,
+            'number_of_correct' => $correct,
+            'submitted' => 1
+        ]);
+
+        // $score = ()
+
         // return response(['status' => 'ok']);
+    }
+
+    public function getSubmittedStatus() {
+        $data = request()->all();
+        $submitted = ResultModel::submitted(Auth::user()->id, $data['test_id']);
+        return response(['submitted' => $submitted]);
+    }
+
+    public function getResult(string $test) {
+        $score = ResultModel::where('test_id', $test)->where('id', Auth::user()->id)->first()->score;
+        return view('dashboard.student.test.result.index', compact('score'));
     }
 }

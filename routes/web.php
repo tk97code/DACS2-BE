@@ -16,6 +16,7 @@ use App\Http\Controllers\TestController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\CheckPermissionMiddleware;
 use App\Http\Middleware\ClassPermissionMiddleware;
+use App\Http\Middleware\TestPermissionMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
@@ -64,12 +65,17 @@ Route::prefix('student')->group(function() {
         Route::get('/', [DashboardController::class, 'index'])->name('student.dashboard.index');
 
         Route::resource('class', StudentClassController::class, ['as' => 'student.dashboard'])->only(['index', 'show', 'destroy', 'store']);
-
-        Route::resource('test', StudentTestController::class, ['as' => 'student.dashboard'])->only(['index', 'show']);
-        Route::prefix('test/{id}')->group(function() {
-            Route::post('update-elapsed-time', [StudentResultController::class, 'updateElapsedTime'])->name('result.updateElapsedTime');
-            Route::post('get-time-passed', [StudentResultController::class, 'getTimePassed'])->name('result.getTimePassed');
-            Route::post('store-result', [StudentResultController::class, 'storeResult'])->name('result.storeResult');
+        
+        Route::resource('test', StudentTestController::class, ['as' => 'student.dashboard'])->middleware(TestPermissionMiddleware::class)->only(['index', 'show']);
+        Route::prefix(prefix: 'test')->group(function() {
+            Route::post('update-elapsed-time', [StudentResultController::class, 'updateElapsedTime'])->name('studentResult.updateElapsedTime');
+            Route::post('get-time-passed', [StudentResultController::class, 'getTimePassed'])->name('studentResult.getTimePassed');
+            Route::post('store-result', [StudentResultController::class, 'storeResult'])->name('studentResult.storeResult');
+            Route::post('get-submitted-status', [StudentResultController::class, 'getSubmittedStatus'])->name('studentResult.getSubmittedStatus');
         });
+
+        Route::get('/test/{test}/result', [StudentResultController::class, 'getResult'])
+        ->middleware(TestPermissionMiddleware::class)
+        ->name('student.dashboard.test.result');
     });
 });
