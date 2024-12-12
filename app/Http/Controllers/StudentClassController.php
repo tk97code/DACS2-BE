@@ -61,6 +61,21 @@ class StudentClassController extends Controller implements HasMiddleware
                 ]);
 
                 $class = ClassModel::where('class_id',  $class_detail->class_id)->first();
+
+                $testDelivery = TestDeliveryModel::where('class_id',  $class->class_id)->get();
+
+                foreach($testDelivery as $test) {
+                    ResultModel::create([
+                        'test_id' => $test->test_id,
+                        'id' => Auth::user()->id, // id người dùng
+                        'mark' => 0, // Điểm ban đầu
+                        'elapsed_time' => 0, // Thời gian ban đầu
+                        'enter_time' => null, // Thời gian vào bài thi
+                        'number_of_correct' => 0, // Số câu đúng ban đầu
+                        'number_of_tab_switches' => 0, // Số lần chuyển tab ban đầu
+                        'submitted' => 0, // Bài thi chưa nộp
+                    ]);
+                }
             }
             
             // return response(['status' => 'ok']);

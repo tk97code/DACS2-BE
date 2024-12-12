@@ -13,7 +13,7 @@
     <!-- <form> -->
     <!-- @csrf -->
     <input type="text" id="invite_code">
-    <button id="submit-btn">JOIN</button>
+    <button id="join-btn">JOIN</button>
     <!-- </form> -->
 
     <div class="page-header">
@@ -78,7 +78,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        $('#submit-btn').click((e) => {
+        $('#join-btn').click((e) => {
             var formData = new FormData();
 
             formData.append('_token', '{{csrf_token()}}');

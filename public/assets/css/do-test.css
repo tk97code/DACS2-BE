@@ -157,6 +157,14 @@ body {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
+.question-card-btn {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .timer-card {
     background: white;
     border-radius: 15px;
@@ -281,7 +289,8 @@ body {
 
 .box label {
     display: flex;
-    height: 53px;
+    height: auto;
+    min-height: 53px;
     width: 100%;
     align-items: center;
     border: 1px solid lightgrey;

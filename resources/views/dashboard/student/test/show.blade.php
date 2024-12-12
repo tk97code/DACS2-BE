@@ -24,6 +24,10 @@
 
     <script src={{asset('vendor/jquery/jquery.min.js')}}></script>
     <link rel="stylesheet" href="{{asset('assets/css/do-test.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+
+<!-- The loading of KaTeX is deferred to speed up page rendering -->
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -59,13 +63,22 @@
             <div class="col-md-8 left-panel">
                 <!-- Question 1 -->
                 @foreach ($questions as $question)
-                <div class="question-card">
+                <div class="question-card" data-question-id="{{$question->question_id}}">
                     <h2 class="h4 mb-4" id="question-id-{{$loop->iteration}}-title">
-                        {{$question->question_content}}
+                        {!!$question->question_content!!}
                     </h2>
+                    @php
+                    $resultDetail = App\Models\ResultDetailModel::where('result_id', $result->result_id)
+                    ->where('question_id', $question->question_id)->first();
+                    @endphp
                     @foreach ($question->options as $option)
                     <div class="box">
                         <input type="radio" name="choosed_option-{{ $loop->parent->iteration }}"
+                            @if (isset($resultDetail->choosed_option_id))
+                                @if ($resultDetail->choosed_option_id === $option->option_id)
+                                checked
+                                @endif
+                            @endif
                             data-option_id="{{$option->option_id}}"
                             data-question_id="{{$question->question_id}}"
                             class="option-radio question-id-{{$loop->parent->iteration}}-input"
@@ -75,7 +88,7 @@
                             id="question-id-{{ $loop->parent->iteration }}-label"
                             class="option-{{ $loop->parent->iteration }}-{{ $loop->iteration }} option-label">
                             <div class="dot"></div>
-                            <div class="text">{{$option->option_content}}</div>
+                            <div class="text">{!!$option->option_content!!}</div>
                         </label>
                     </div>
                     @endforeach
@@ -99,7 +112,7 @@
                 </div>
 
                 <!-- Question Navigation -->
-                <div class="question-card question-list mt-4">
+                <div class="question-card-btn question-list mt-4">
                     <div class="question-nav">
                         @foreach ($questions as $question)
                         <button class="question-nav-btn" id="question-id-{{$loop->iteration}}-btn">
@@ -123,10 +136,45 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", (event) => {
+            Array.from($('input[type="radio"].option-radio:checked')).forEach((el) => {
+                let question_id = el.classList[1].replace('input', 'btn')
+                let question_button = document.getElementById(question_id);
+
+                if ($('input[type="radio"].option-radio:checked').length > 0) {
+                    question_button.classList.add('question-button-selected'); // Thêm class nếu có radio được chọn
+                } else {
+                    question_button.classList.remove('question-button-selected'); // Xóa class nếu không có radio nào được chọn
+                }
+            });
+
+
             var data = new FormData();
             data.append('_token', '{{csrf_token()}}');
             data.append('test_id', '{{$test->test_id}}');
             data.append('id', '{{Auth::user()->id}}');
+            $.ajax({
+                type: 'POST',
+                url: "{{route('studentResult.getSubmittedStatus', ['id' => $test->test_id])}}",
+                data: data,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: (response) => {
+                    if (response.submitted) {
+                        document.body.innerHTML = '';
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "This test is submitted",
+                            icon: 'error',
+                            confirmButtonText: 'Go back'
+                        }).then(function(isConfirm) {
+                            if (isConfirm) {
+                                window.location.href = '{{route("student.dashboard.class.index")}}'
+                            }
+                        })
+                    }
+                }
+            });
             $.ajax({
                 type: 'POST',
                 url: "{{route('studentResult.getTimePassed', ['id' => $test->test_id])}}",
@@ -136,17 +184,6 @@
                 dataType: 'json',
                 success: (response) => {
                     if (('{{$test->time_do_test}}' * 60 - response.time_passed) < 0) {
-                        // document.body.innerHTML = '';
-                        // Swal.fire({
-                        //     title: 'Error!',
-                        //     text: "You have run out of time to do the test",
-                        //     icon: 'error',
-                        //     confirmButtonText: 'Go back'
-                        // }).then(function(isConfirm) {
-                        //     if (isConfirm) {
-                        //         window.location.href = '{{route("student.dashboard.class.index")}}'
-                        //     }
-                        // })
                     } else {
                         if ($('#revese-timer').length) {
 
@@ -274,30 +311,6 @@
                 }
             });
 
-            $.ajax({
-                type: 'POST',
-                url: "{{route('studentResult.getSubmittedStatus', ['id' => $test->test_id])}}",
-                data: data,
-                processData: false,
-                contentType: false,
-                dataType: 'json',
-                success: (response) => {
-                    document.body.innerHTML = '';
-                    if (response.submitted) {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: "This test is submitted",
-                            icon: 'error',
-                            confirmButtonText: 'Go back'
-                        }).then(function(isConfirm) {
-                            if (isConfirm) {
-                                window.location.href = '{{route("student.dashboard.class.index")}}'
-                            }
-                        })
-                    }
-                }
-            });
-
             function getCurrentDateTime() {
                 const now = new Date();
 
@@ -351,13 +364,19 @@
 
             $('.btn-clear').click((e) => {
                 let btn_clear_id = e.currentTarget.id.replace('clear', 'input');
+                let btn_question = e.currentTarget.id.replace('clear', 'btn');
+                if (document.getElementById(btn_question).classList.contains('question-button-selected')) {
+                    document.getElementById(btn_question).classList.remove('question-button-selected');
+                    console.log('runned')
+                }
                 console.log(btn_clear_id)
                 let btn_clear = document.getElementsByClassName(btn_clear_id);
                 console.log(btn_clear);
                 Array.from(btn_clear).forEach(element => {
                     element.checked = false;
-                    $(element).trigger('change');
+                    // $(element).trigger('change');
                 });
+                
             });
 
             function convertToSecond(time) {
@@ -369,13 +388,31 @@
                 time = $('#base-timer-label').text();
                 let elapsed_time = Number('{{$test->time_do_test}}') * 60 - convertToSecond(time);
                 let data = new FormData();
+
+                var questions = document.querySelectorAll('.question-card'); // Lấy tất cả các câu hỏi
+                var choosed_option_arr = []; // Mảng chứa kết quả
+
+                questions.forEach(question => {
+                    const questionId = question.getAttribute('data-question-id'); // Lấy ID câu hỏi
+                    const selectedOption = question.querySelector('input[type="radio"]:checked'); // Lấy lựa chọn đã chọn
+                    
+                    if (selectedOption) {
+                        const optionId = selectedOption.getAttribute('data-option_id'); // Lấy ID lựa chọn
+                        choosed_option_arr.push(JSON.stringify([questionId, optionId])); // Thêm vào mảng 2 chiều
+                    } else {
+                        choosed_option_arr.push(JSON.stringify([questionId, null])); // Nếu không chọn, giá trị là null
+                    }
+                });
+
+
                 data.append('_token', '{{csrf_token()}}');
                 data.append('elapsed_time', elapsed_time);
                 data.append('test_id', '{{$test->test_id}}');
                 data.append('id', '{{Auth::user()->id}}');
+                data.append('choosed_option_arr', JSON.stringify(choosed_option_arr));
                 $.ajax({
                     type: 'POST',
-                    url: "{{route('studentResult.updateElapsedTime', ['id' => $test->test_id])}}",
+                    url: "{{route('studentResult.updateBeforeLeave', ['id' => $test->test_id])}}",
                     data: data,
                     processData: false,
                     contentType: false,

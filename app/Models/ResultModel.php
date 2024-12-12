@@ -32,6 +32,12 @@ class ResultModel extends Model
         return $this->belongsTo(TestModel::class, 'test_id', 'test_id'); // Liên kết với bảng test
     }
 
+    public function getResultDetail($question_id, $result_id) {
+        $resultDetail = ResultDetailModel::where('question_id', $question_id)
+                            ->where('result_id', $result_id)->first();
+                            return $resultDetail;
+    }
+
     public static function isEnteredTest($id, $test_id) {
         $result = ResultModel::where('test_id', $test_id)->where('id', $id)->first();
         if (isset($result->enter_time)) {
@@ -45,7 +51,11 @@ class ResultModel extends Model
 
     public static function submitted($id, $test_id) {
         $result = ResultModel::where('test_id', $test_id)->where('id', $id)->first();
-        $submitted = $result->submitted;
+        if (isset($result->submitted)) {
+            $submitted = $result->submitted;
+        } else {
+            $submitted = 0;
+        }
 
         return $submitted;
     }

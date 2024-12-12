@@ -68,10 +68,12 @@ Route::prefix('student')->group(function() {
         
         Route::resource('test', StudentTestController::class, ['as' => 'student.dashboard'])->middleware(TestPermissionMiddleware::class)->only(['index', 'show']);
         Route::prefix(prefix: 'test')->group(function() {
-            Route::post('update-elapsed-time', [StudentResultController::class, 'updateElapsedTime'])->name('studentResult.updateElapsedTime');
+            Route::post('update-before-leave', [StudentResultController::class, 'updateBeforeLeave'])->name('studentResult.updateBeforeLeave');
             Route::post('get-time-passed', [StudentResultController::class, 'getTimePassed'])->name('studentResult.getTimePassed');
             Route::post('store-result', [StudentResultController::class, 'storeResult'])->name('studentResult.storeResult');
             Route::post('get-submitted-status', [StudentResultController::class, 'getSubmittedStatus'])->name('studentResult.getSubmittedStatus');
+            Route::post('save-choosed-option', [StudentResultController::class, 'saveChoosedOption'])->name('studentResult.saveChoosedOption');
+        
         });
 
         Route::get('/test/{test}/result', [StudentResultController::class, 'getResult'])

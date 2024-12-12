@@ -26,6 +26,11 @@
             display: flex;
         }
 
+        #editor {
+            height: 500px;
+            background-color: white;
+        }
+
         .editor__code {
             position: relative;
             border: none;
@@ -88,6 +93,17 @@
 
     <link rel="stylesheet" href="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/vendors/flatpickr/flatpickr.min.css')}}">
+
+    <script src={{asset('vendor/jquery/jquery.min.js')}}></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+    <script src="{{asset('assets/js/image-resize.min.js')}}"></script>
 
     <!-- <link
         rel="stylesheet"
@@ -198,15 +214,15 @@
 
     <div class="row form-create-question">
         <div class="col-6 grid-margin">
-            <div class="editor">
-                <div class="editor__code">
+            <div id="editor">
+                <!-- <div class="editor__code">
                     <div id="editorCode"></div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-6 grid-margin">
             <div class="card">
-                <h3>Kết quả xem trước</h3>
+                <h3>Preview</h3>
                 <div class="card-body">
                     <div id="preview"></div>
                     <div id="content-preview"></div>
@@ -221,11 +237,15 @@
 
 </div>
 <script src={{asset('vendor/jquery/jquery.min.js')}}></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+<script src="{{asset('assets/vendors/js/vendor.bundle.base.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{asset('assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('assets/vendors/flatpickr/flatpickr.js')}}"></script>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script>
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script> -->
 <script type="module" src={{asset('assets/js/create-test.js')}}></script>
 
 <!-- Include Choices JavaScript (latest) -->
@@ -234,6 +254,9 @@
 <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
 
 <script>
+
+    var created_question = 0;
+    var test_id = "";
 
     document.addEventListener('DOMContentLoaded', function () {
         const elements = document.querySelectorAll('.choices');
@@ -247,7 +270,25 @@
                 shouldSort: false
             });
         });
+
+        window.onbeforeunload = (e) => {
+            if (created_question == 0 && test_id != '') {
+                let url = "{{route('teacher.dashboard.test.destroy', ':test_id')}}";
+                url = url.replace(':test_id',test_id);
+                $.ajax({
+                    type: 'DELETE',
+                    url: url,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}',
+                        'Content-Type': 'application/json',
+                    },
+                    success: function(response) {
+                    }
+                });
+            }
+        };
     });
+
 
     $(document).ready(() => {
 
@@ -312,7 +353,7 @@
                     $('.form-create-question').show();
 
                     // console.log(response)
-
+                    test_id = response.test_id;
                     questionData.test_id = response.test_id;
                     console.log(questionData.test_id);
                 }
@@ -327,7 +368,11 @@
             let formData = new FormData();
             formData.append("_token", questionData._token);
             formData.append('test_id', questionData.test_id);
-            formData.append('questions_arr', JSON.stringify(questions_arr));
+            let sanitizedQuestions = questions_arr.map(question => {
+                let { lineElement, ...rest } = question; // Tách lineElement và giữ phần còn lại
+                return rest;
+            });
+            formData.append('questions_arr', JSON.stringify(sanitizedQuestions));
 
             $.ajax({
                 type: 'POST',
@@ -339,6 +384,10 @@
                 success: function(response) {
                     console.log("Request success:", response.status);
                     console.log("Request content:", response.question);
+
+                    created_question = 1;
+
+                    window.location.href = "{{route('teacher.dashboard.test.index')}}";
                 }
             });
         });

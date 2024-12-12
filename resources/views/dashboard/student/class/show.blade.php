@@ -158,22 +158,28 @@
                         @if ($is_entered_test[$test->test_id])
                             @if ($submitted[$test->test_id])
                             <button class="btn btn-exam w-100 disabled">Test submitted</button>
+                            <button class="btn w-100 mt-2 btn-success" onclick="goResult('{{$test->test_id}}')">Get result</button>
                             @elseif (($test->end_at < now()->format('Y-m-d H:i:s')))
                             <button class="btn btn-exam w-100 disabled">Test closed</button>
+                            <button class="btn w-100 mt-2 btn-success" onclick="goResult('{{$test->test_id}}')">Get result</button>
                             @else
                             <button class="btn btn-exam w-100" onclick="goTest('{{$test->test_id}}')">Continue test</button>
+                            <button class="btn w-100 mt-2 disabled">Get result</button>
                             @endif
                         @else
                             @if ($test->start_at > now()->format('Y-m-d H:i:s'))
                             <button class="btn btn-exam w-100 disabled">Test not opened</button>
+                            <button class="btn w-100 mt-2 btn-success" onclick="goResult('{{$test->test_id}}')">Get result</button>
+
                             @elseif ($test->end_at < now()->format('Y-m-d H:i:s'))
                             <button class="btn btn-exam w-100 disabled">Test closed</button>
+                            <button class="btn w-100 mt-2 btn-success" onclick="goResult('{{$test->test_id}}')">Get result</button>
+
                             @else
                             <button class="btn btn-exam w-100" onclick="goTest('{{$test->test_id}}')">Enter test</button>
+                            <button class="btn w-100 mt-2 disabled">Get result</button>
                             @endif
                         @endif
-
-                        <button class="btn w-100 mt-2 btn-success" onclick="goResult('{{$test->test_id}}')">Get result</button>
                     </div>
                 </div>
             </div>

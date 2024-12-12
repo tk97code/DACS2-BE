@@ -5,92 +5,54 @@
     <meta charset="UTF-8">
     <title>Soạn câu hỏi</title>
     <script src="../public/vendor//jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script> -->
+    <!-- Include stylesheet -->
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  <script src="image-resize.min.js"></script>
+
 </head>
 
 <body>
-    <h3>Soạn câu hỏi</h3>
-    <textarea id="questionInput" rows="10" cols="50"></textarea><br>
-    <button onclick="processQuestions()">Xem trước</button>
+    <div class="row form-create-question">
+        <div class="col-6 grid-margin">
+            <div class="editor" id="editor" style="height: 500px;">
+                <div class="editor__code">
+                    <div id="editorCode"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 grid-margin">
+            <div class="card">
+                <h3>Kết quả xem trước</h3>
+                <div class="card-body">
+                    <div id="preview"></div>
+                    <div id="content-preview"></div>
+                </div>
+            </div>
+        </div>
 
-    <h3>Kết quả xem trước</h3>
-    <div id="preview"></div>
-    <script>
+        <button class="btn btn-primary" id="create-test-button">
+            Create test
+        </button>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        $(document).ready(function() {
-            let previousValue = $("#questionInput").val(); // Store the initial value
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor/min/vs/loader.js"></script> -->
 
-            $("#questionInput").on("input", function() {
-                processQuestions();
-            });
-        });
-
-        function processQuestions() {
-            const input = document.getElementById("questionInput").value;
-            const lines = input.split("\n");  // Tách từng dòng
-            let questions_arr = [];
-            let currentQuestion = null;
-
-            lines.forEach((line, index) => {
-                line = line.trim();
-
-                // Kiểm tra xem có phải là câu hỏi mới (bắt đầu bằng dấu ')
-                if (line.startsWith("'")) {
-                    // Nếu có câu hỏi hiện tại, lưu nó vào mảng trước khi tạo câu hỏi mới
-                    if (currentQuestion) {
-                        questions_arr.push(currentQuestion);
-                    }
-
-                    // Khởi tạo câu hỏi mới
-                    currentQuestion = {
-                        content: line.substring(1).trim(), // Nội dung câu hỏi
-                        options: [], // Mảng các lựa chọn
-                        answer: null // Câu trả lời đúng
-                    };
-                } else if (currentQuestion && line !== "") {
-                    // Xử lý các lựa chọn đáp án
-                    const isCorrect = line.startsWith("*");
-                    const optionText = isCorrect ? line.substring(1).trim() : line;
-
-                    currentQuestion.options.push(optionText);
-                    if (isCorrect) {
-                        currentQuestion.answer = optionText;
-                    }
-                }
-
-                // Nếu là dòng cuối và vẫn còn câu hỏi đang xử lý, lưu câu hỏi đó
-                if (index === lines.length - 1 && currentQuestion) {
-                    questions_arr.push(currentQuestion);
-                }
-            });
-
-            displayQuestions(questions_arr);
-            console.log(questions_arr);
-        }
-
-        function displayQuestions(questions_arr) {
-            const previewDiv = document.getElementById("preview");
-            previewDiv.innerHTML = ""; // Xóa nội dung cũ
-
-            questions_arr.forEach((question, index) => {
-                const questionDiv = document.createElement("div");
-                questionDiv.innerHTML = `<strong>Câu ${index + 1}: ${question.content}</strong><br>`;
-
-                question.options.forEach((option, i) => {
-                    const optionDiv = document.createElement("div");
-                    optionDiv.textContent = `${String.fromCharCode(65 + i)}. ${option}`;
-                    if (option === question.answer) {
-                        optionDiv.style.color = "green";
-                        optionDiv.innerHTML += " (Đáp án đúng)";
-                    }
-                    questionDiv.appendChild(optionDiv);
-                });
-
-                previewDiv.appendChild(questionDiv);
-            });
-        }
-
-
-    </script>
+    <!-- Include Choices JavaScript (latest) -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <!-- Or versioned -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/scripts/choices.min.js"></script>
+    
+    <script type="module" src="test.js"></script>
 </body>
 
 </html>

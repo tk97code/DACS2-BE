@@ -106,6 +106,7 @@ class TeacherTestController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        TestModel::where('test_id', $id)->delete();
+        return response('ok', '200');
     }
 }
