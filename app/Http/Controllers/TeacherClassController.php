@@ -45,14 +45,7 @@ class TeacherClassController extends Controller implements HasMiddleware
      */
     public function store(Request $request)
     {
-        request()->validate([
-            'class_name' => 'required'
-        ]);
-        $data = request()->all();
-        $data['invite_code'] = Uuid::uuid4()->toString();
-        ClassModel::query()->create($data);
-
-        $new_class = ClassModel::where('creator_id', Auth::id())->where('invite_code', $data['invite_code'])->get();
+        $new_class = ClassModel::createClass($request);
         return response(['current_total_class' => Auth::user()->class->count(), 'new_class' => $new_class]);
     }
 
@@ -67,6 +60,8 @@ class TeacherClassController extends Controller implements HasMiddleware
         ->join('users', 'class_detail.id', '=', 'users.id') // Kết hợp với bảng users để lấy thông tin chi tiết học sinh
         ->select('users.id', 'users.name', 'users.email', 'users.gender', 'users.dob', 'users.avatar') // Chọn các cột cần thiết
         ->get();
+
+        
 
         return view('dashboard.teacher.class.show', compact('id', 'class_detail', 'students'));
     }
@@ -92,6 +87,7 @@ class TeacherClassController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        //
+        ClassModel::where('class_id', $id)->delete();
+        return response(['current_total_class'=> Auth::user()->class->count()]);
     }
 }

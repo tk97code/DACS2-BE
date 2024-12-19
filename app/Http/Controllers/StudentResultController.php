@@ -109,6 +109,8 @@ class StudentResultController extends Controller
             'submitted' => 1
         ]);
 
+        return response(["status" => 'ok']);
+
         // $score = ()
 
         // return response(['status' => 'ok']);

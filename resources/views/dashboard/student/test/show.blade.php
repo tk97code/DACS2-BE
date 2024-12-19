@@ -26,8 +26,8 @@
     <link rel="stylesheet" href="{{asset('assets/css/do-test.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">
 
-<!-- The loading of KaTeX is deferred to speed up page rendering -->
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -75,14 +75,14 @@
                     <div class="box">
                         <input type="radio" name="choosed_option-{{ $loop->parent->iteration }}"
                             @if (isset($resultDetail->choosed_option_id))
-                                @if ($resultDetail->choosed_option_id === $option->option_id)
-                                checked
-                                @endif
-                            @endif
-                            data-option_id="{{$option->option_id}}"
-                            data-question_id="{{$question->question_id}}"
-                            class="option-radio question-id-{{$loop->parent->iteration}}-input"
-                            id="option-question{{ $loop->parent->iteration }}-{{ $loop->iteration }}">
+                        @if ($resultDetail->choosed_option_id === $option->option_id)
+                        checked
+                        @endif
+                        @endif
+                        data-option_id="{{$option->option_id}}"
+                        data-question_id="{{$question->question_id}}"
+                        class="option-radio question-id-{{$loop->parent->iteration}}-input"
+                        id="option-question{{ $loop->parent->iteration }}-{{ $loop->iteration }}">
 
                         <label for="option-question{{ $loop->parent->iteration }}-{{ $loop->iteration }}"
                             id="question-id-{{ $loop->parent->iteration }}-label"
@@ -183,8 +183,7 @@
                 contentType: false,
                 dataType: 'json',
                 success: (response) => {
-                    if (('{{$test->time_do_test}}' * 60 - response.time_passed) < 0) {
-                    } else {
+                    if (('{{$test->time_do_test}}' * 60 - response.time_passed) < 0) {} else {
                         if ($('#revese-timer').length) {
 
                             const FULL_DASH_ARRAY = 283;
@@ -376,7 +375,7 @@
                     element.checked = false;
                     // $(element).trigger('change');
                 });
-                
+
             });
 
             function convertToSecond(time) {
@@ -395,7 +394,7 @@
                 questions.forEach(question => {
                     const questionId = question.getAttribute('data-question-id'); // Lấy ID câu hỏi
                     const selectedOption = question.querySelector('input[type="radio"]:checked'); // Lấy lựa chọn đã chọn
-                    
+
                     if (selectedOption) {
                         const optionId = selectedOption.getAttribute('data-option_id'); // Lấy ID lựa chọn
                         choosed_option_arr.push(JSON.stringify([questionId, optionId])); // Thêm vào mảng 2 chiều
@@ -422,6 +421,7 @@
 
 
             $('.btn-submit').click((e) => {
+
                 let choosed_option_arr = [];
                 Array.from(document.querySelectorAll('input[type="radio"]:checked')).forEach((el) => {
                     let option_detail = [];
@@ -435,17 +435,30 @@
                 data.append('_token', '{{csrf_token()}}');
                 data.append('test_id', '{{$test->test_id}}');
                 data.append('choosed_option_arr', JSON.stringify(choosed_option_arr));
-                $.ajax({
-                    type: 'post',
-                    url: "{{route('studentResult.storeResult', ['id' => $test->test_id])}}",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    dataType: 'json',
-                    success: (response) => {
 
+                Swal.fire({
+                    title: 'Warning!',
+                    text: "Are you sure you want to submit?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes'
+                }).then(function(isConfirm) {
+                    if (isConfirm) {
+                        $.ajax({
+                            type: 'post',
+                            url: "{{route('studentResult.storeResult', ['id' => $test->test_id])}}",
+                            data: data,
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+                            success: (response) => {
+                                window.location.href = '{{route("student.dashboard.class.index")}}'
+                            }
+                        });
+                        
                     }
-                });
+                })
+
             });
         });
     </script>

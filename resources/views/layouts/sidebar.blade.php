@@ -15,20 +15,20 @@
                 <!-- <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i> -->
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href={{route('teacher.dashboard.index')}}>
+        <li class="nav-item {{request()->is('teacher/dashboard') ? 'active' : '' }}">
+            <a class="nav-link" href={{route('teacher.dashboard.index')}} >
                 <span class="menu-title">Dashboard</span>
                 <i class="mdi mdi-home menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href={{route('teacher.dashboard.class.index')}}>
+        <li class="nav-item {{request()->is('teacher/dashboard/class*') ? 'active' : '' }}">
+            <a class="nav-link " href={{route('teacher.dashboard.class.index')}} >
                 <span class="menu-title">Class</span>
                 <i class="mdi mdi-google-classroom menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href={{route('teacher.dashboard.test.index')}}>
+        <li class="nav-item {{request()->is('teacher/dashboard/test*') ? 'active' : '' }}">
+            <a class="nav-link " href={{route('teacher.dashboard.test.index')}} >
                 <span class="menu-title">Test</span>
                 <i class="mdi mdi-note-text-outline menu-icon"></i>
             </a>
@@ -41,7 +41,7 @@
         <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                    <img src={{asset("assets/images/faces/face1.jpg")}} alt="profile" />
+                    <img src="https://www.bootdey.com/img/Content/avatar/avatar7.png" alt="profile" />
                     <span class="login-status online"></span>
                     <!--change to offline or busy as needed-->
                 </div>
@@ -52,13 +52,13 @@
                 <!-- <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i> -->
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{request()->is('student/dashboard') ? 'active' : '' }}">
             <a class="nav-link" href={{route('student.dashboard.index')}}>
                 <span class="menu-title">Dashboard</span>
                 <i class="mdi mdi-home menu-icon"></i>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{request()->is('student/dashboard/class*') ? 'active' : '' }}">
             <a class="nav-link" href={{route('student.dashboard.class.index')}}>
                 <span class="menu-title">Class</span>
                 <i class="mdi mdi-google-classroom menu-icon"></i>

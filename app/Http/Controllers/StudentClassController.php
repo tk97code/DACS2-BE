@@ -79,9 +79,9 @@ class StudentClassController extends Controller implements HasMiddleware
             }
             
             // return response(['status' => 'ok']);
-            return response(['class' => $class]);
+            return response(['class' => $class, 'status' => 'ok']);
         } else {
-            return response(['status' => 'not find invite code']);
+            return response(['status' => 'not found']);
         }
     }
 

@@ -61,13 +61,21 @@
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <script src={{asset("assets/js/off-canvas.js")}}></script>
-    <script src={{asset("assets/js/misc.js")}}></script>
+    <!-- <script src={{asset("assets/js/misc.js")}}></script> -->
     <script src={{asset("assets/js/settings.js")}}></script>
     <script src={{asset("assets/js/todolist.js")}}></script>
     <!-- <script src={{asset("assets/js/jquery.cookie.js")}}></script> -->
     <!-- endinject -->
     <!-- Custom js for this page -->
     <script src={{asset("assets/js/dashboard.js")}}></script>
+
+    <style>
+
+.eggy.top-right {
+            z-index: 10000;
+        }
+
+    </style>
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
     <!-- End custom js for this page -->

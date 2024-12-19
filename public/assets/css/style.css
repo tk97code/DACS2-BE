@@ -107,6 +107,9 @@
 /* === Import template variables === */
 /*-------------------------------------------------------------------*/
 /* === SCSS Compass Functions === */
+
+
+
 @-moz-keyframes flash {
   0% {
     opacity: 1;
@@ -11429,9 +11432,10 @@ textarea.is-invalid.tt-hint, .select2-container--default .select2-selection--sin
 }
 
 .btn-primary {
-  --bs-btn-color: #000;
-  --bs-btn-bg: #b66dff;
-  --bs-btn-border-color: #b66dff;
+  background: linear-gradient(to right, #da8cff, #9a55ff);
+  --bs-btn-color: white;
+  --bs-btn-bg: #f37134;
+  /* --bs-btn-border-color: #f37134; */
   --bs-btn-hover-color: #000;
   --bs-btn-hover-bg: #c183ff;
   --bs-btn-hover-border-color: #bd7cff;
@@ -22283,7 +22287,7 @@ code {
   border-color: #b66dff;
 }
 
-.btn-primary:not(.btn-light) {
+/* .btn-primary:not(.btn-light) {
   color: #ffffff;
 }
 .btn-primary:not(.btn-light):hover, .btn-primary:not(.btn-light):focus, .btn-primary:not(.btn-light):active {
@@ -22292,7 +22296,7 @@ code {
 .btn-primary:not(.btn-light):focus, .btn-primary:not(.btn-light):active {
   background: #b66dff;
   border-color: #b66dff;
-}
+} */
 
 .btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active {
   background: linear-gradient(to right, #da8cff, #9a55ff);
@@ -22493,7 +22497,7 @@ code {
   border-color: #fe7c96;
 }
 
-.btn-danger:not(.btn-light) {
+/* .btn-danger:not(.btn-light) {
   color: #ffffff;
 }
 .btn-danger:not(.btn-light):hover, .btn-danger:not(.btn-light):focus, .btn-danger:not(.btn-light):active {
@@ -22502,7 +22506,7 @@ code {
 .btn-danger:not(.btn-light):focus, .btn-danger:not(.btn-light):active {
   background: #fe7c96;
   border-color: #fe7c96;
-}
+} */
 
 .btn-outline-danger:hover, .btn-outline-danger:focus, .btn-outline-danger:active {
   background: linear-gradient(to right, #ffbf96, #fe7096);

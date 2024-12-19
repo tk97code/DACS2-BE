@@ -38,6 +38,7 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <h2 class="h5 mb-3">Score:</h2>
+                    @if ($test->allow_show_mark)
                     <div class="score-circle mx-auto">
                         <svg width="150" height="150">
                             <circle class="score-background" cx="75" cy="75" r="70" />
@@ -46,16 +47,26 @@
                         </svg>
                         <div class="score-text">{{$result->score}}</div>
                     </div>
+                    @else
+                    <div class="score-circle mx-auto">
+                        <svg width="150" height="150">
+                            <circle class="score-background" cx="75" cy="75" r="70" />
+                            <circle class="score-progress" cx="75" cy="75" r="70"
+                                stroke-dasharray="440" stroke-dashoffset="{{ 440 - (440 * ($result->score*10) / 100) }}" />
+                        </svg>
+                        <div class="score-text">__</div>
+                    </div>
+                    @endif
                 </div>
             </div>
 
             <div class="mb-4">
-                <h2 class="h5 mb-3">THÔNG TIN</h2>
+                <!-- <h2 class="h5 mb-3">THÔNG TIN</h2>
                 <div class="row mb-3">
                     <div class="col-md-6">Thời gian làm: 00:00:18</div>
                     <div class="col-md-6">Thời gian kết thúc bài thi: 16:12 27/11/2024</div>
-                </div>
-                <div class="progress mb-3">
+                </div> -->
+                <!-- <div class="progress mb-3">
                     <div class="progress-bar bg-success" style="width: 14%"></div>
                     <div class="progress-bar bg-danger" style="width: 86%"></div>
                 </div>
@@ -76,7 +87,7 @@
                         <div class="fw-bold">Số câu bỏ trống</div>
                         <div>29</div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             @if ($test->allow_show_answer)
@@ -104,8 +115,10 @@
                         <div class="box">
                             <input type="radio" name="choosed_option-{{ $loop->parent->iteration }}"
                                 data-option_id="{{$option->option_id}}"
-                                @if ($resultDetail->choosed_option_id === $option->option_id)
-                                checked
+                                @if(isset($resultDetail->choosed_option_id))
+                                    @if ($resultDetail->choosed_option_id === $option->option_id)
+                                    checked
+                                    @endif
                                 @endif
                             data-question_id="{{$question->question_id}}"
                             class="option-radio question-id-{{$loop->parent->iteration}}-input"

@@ -2,6 +2,13 @@
 
 @section('content')
 
+<head>
+
+<link rel="stylesheet" href={{asset('assets/css/class.css')}}>
+
+</head>
+
+
 <div class="content-wrapper">
     <div class="page-header">
         <h3 class="page-title">
@@ -9,15 +16,47 @@
                 <i class="mdi mdi-home"></i>
             </span> Dashboard
         </h3>
-        <nav aria-label="breadcrumb">
-            <ul class="breadcrumb">
-                <li class="breadcrumb-item active" aria-current="page">
-                    <span></span>Overview <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
-                </li>
-            </ul>
-        </nav>
     </div>
-    <div class="row">
+    <h1 class="mb-4">Overview</h1>
+
+<!-- Stats Cards -->
+<div class="row mb-5">
+    <div class="col-md-4 mb-3">
+        <div class="stats-card bg-white">
+            <div class="stats-icon bg-danger bg-opacity-10">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </div>
+            <h3 class="h6 text-muted">Classes</h3>
+            <p class="h3 mb-0 total-class">{{$total_class}}</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="stats-card bg-white">
+            <div class="stats-icon bg-success bg-opacity-10">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                </svg>
+            </div>
+            <h3 class="h6 text-muted">Students</h3>
+            <p class="h3 mb-0">0</p>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="stats-card bg-white">
+            <div class="stats-icon bg-warning bg-opacity-10">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                </svg>
+            </div>
+            <h3 class="h6 text-muted">Review Test</h3>
+            <p class="h3 mb-0">0</p>
+        </div>
+    </div>
+</div>
+    
+    <!-- <div class="row">
         <div class="col-md-4 stretch-card grid-margin">
             <div class="card bg-gradient-danger card-img-holder text-white">
                 <div class="card-body">
@@ -329,7 +368,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DemoUploadController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentResultController;
@@ -81,3 +82,13 @@ Route::prefix('student')->group(function() {
         ->name('student.dashboard.test.result');
     });
 });
+
+Route::get('profile', function() {
+    return view('profile.index');
+})->name('profile.index');
+
+Route::get('profile/edit', function() {
+    return view('profile.edit');
+})->name('profile.edit');
+
+Route::post('profile/update', [ProfileController::class, "updateProfile"])->name('profile.udpate');

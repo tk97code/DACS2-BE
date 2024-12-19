@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test eggyjs</title>
+</head>
+<body>
+    
+    <button id="test">Click me to show EggyJs</button>
+    
+    <!-- <script type="module" src="https://cdn.jsdelivr.net/npm/@s-r0/eggy-js@1.3.4/build/js/eggy.min.js"></script> -->
+    <script type="module">
+        import sR0eggyJs from 'https://cdn.jsdelivr.net/npm/@s-r0/eggy-js@1.3.4/+esm'
+        </script>
+    <script type="module">
+
+        import * as sR0eggyJs from 'https://esm.run/@s-r0/eggy-js';
+
+
+        // document.getElementById('test').addEventListener('click', () => {
+            sR0eggyJs.Eggy({
+                title:  'Whoops!',
+                message:  'You done burnt your eggs!',
+                type:  'success'
+            })
+        // });
+
+        function test() {
+            
+        }
+
+        
+
+    </script>
+    
+</body>
+</html>

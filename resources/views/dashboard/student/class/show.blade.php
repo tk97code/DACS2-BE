@@ -100,23 +100,30 @@
 
     <div class="container-fluid p-4">
         <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <!-- <div class="d-flex justify-content-between align-items-center mb-4">
             <a href="#" class="logo">
                 <div class="logo-icon"></div>
                 <span>{{$class->class_name}}</span>
             </a>
             <button class="btn btn-danger">Trở về</button>
-        </div>
+        </div> -->
 
         <!-- Navigation -->
-        <ul class="nav nav-tabs border-0 mb-4">
+        <!-- <ul class="nav nav-tabs border-0 mb-4">
             <li class="nav-item">
                 <a class="nav-link active" href="#">Đề thi ôn tập</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Bài kiểm tra</a>
             </li>
-        </ul>
+        </ul> -->
+        <div class="page-header">
+        <h3 class="page-title">
+            <span class="page-title-icon bg-gradient-primary text-white me-2">
+                <i class="mdi mdi-note-text-outline"></i>
+            </span> Class | {{$class->class_name}}
+        </h3>
+    </div>
 
         <!-- Search and Exam Count -->
         <div class="d-flex justify-content-between align-items-center mb-4">

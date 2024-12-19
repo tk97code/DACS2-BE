@@ -12,7 +12,8 @@
         <nav aria-label="breadcrumb">
             <ul class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">
-                    <a href={{route('teacher.dashboard.test.create')}}>Create test</a> <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                    <!-- <a href={{route('teacher.dashboard.test.create')}}>Create test</a> <i class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i> -->
+                    <button class="btn btn-primary" id="addNewTest" data-bs-toggle="modal" data-bs-target="#addClassModal">Add new test</button>
                 </li>
             </ul>
         </nav>
@@ -41,8 +42,8 @@
                                         <i class="fa fa-clock me-1"></i> Take place from <span>{{$test->start_at}}</span> to <span>{{$test->end_at}}</span>
                                     </p>
                                 </div>
-                                <div class="p-1 p-md-3">
-                                    <button class="btn btn-sm btn-alt-danger rounded-pill px-3 me-1 my-1" disabled="">Closed</button>
+                                <!-- <div class="p-1 p-md-3">
+                                    <button class="btn btn-sm btn-danger rounded-pill px-3 me-1 my-1" disabled="">Closed</button>
                                     <a class="btn btn-sm btn-alt-success rounded-pill px-3 me-1 my-1" href="{{route('teacher.dashboard.test.show', $test->test_id)}}">
                                         <i class="fa fa-eye opacity-50 me-1"></i> Details
                                     </a>
@@ -52,7 +53,7 @@
                                     <a data-role="dethi" data-action="delete" class="btn btn-sm btn-alt-danger rounded-pill px-3 my-1 btn-delete show" href="javascript:void(0)" data-id="22">
                                         <i class="fa fa-times opacity-50 me-1"></i> Delete
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -65,7 +66,14 @@
 
 </div>
 
+<script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+<script>
 
+    $('#addNewTest').click((e) => {
+        window.location.href = "{{route('teacher.dashboard.test.create')}}"
+    });
+
+</script>
 
 <!-- <script src={{asset('assets/js/create-test.js')}}></script> -->
 
