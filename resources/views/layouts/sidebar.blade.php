@@ -4,7 +4,7 @@
         <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                    <img src={{asset("assets/images/faces/face1.jpg")}} alt="profile" />
+                    <img src={{Auth::user()->avatar}} alt="profile" />
                     <span class="login-status online"></span>
                     <!--change to offline or busy as needed-->
                 </div>
@@ -41,7 +41,7 @@
         <li class="nav-item nav-profile">
             <a href="#" class="nav-link">
                 <div class="nav-profile-image">
-                    <img src="https://www.bootdey.com/img/Content/avatar/avatar7.png" alt="profile" />
+                    <img src="{{Auth::user()->avatar}}" alt="profile" />
                     <span class="login-status online"></span>
                     <!--change to offline or busy as needed-->
                 </div>

@@ -4,7 +4,7 @@
 
 <div class="content-wrapper">
 
-    
+    test {{$id}}
 
 </div>
 

@@ -163,13 +163,6 @@
                                             0 đề thi
                                         </span>
                                     </div>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <button class="btn btn-sm btn-outline-primary me-2" onclick="event.stopPropagation()">Sửa</button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation()">Xóa</button>
-                                        </div>
-                                        <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Vào lớp học</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>

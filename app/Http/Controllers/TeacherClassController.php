@@ -58,11 +58,10 @@ class TeacherClassController extends Controller implements HasMiddleware
 
         $students = ClassDetailModel::where('class_id', $id)
         ->join('users', 'class_detail.id', '=', 'users.id') // Kết hợp với bảng users để lấy thông tin chi tiết học sinh
-        ->select('users.id', 'users.name', 'users.email', 'users.gender', 'users.dob', 'users.avatar') // Chọn các cột cần thiết
         ->get();
 
         
-
+        // dd($students);
         return view('dashboard.teacher.class.show', compact('id', 'class_detail', 'students'));
     }
 
@@ -79,7 +78,18 @@ class TeacherClassController extends Controller implements HasMiddleware
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Move to UpdateController->updateClass()
+        
+        // $class = ClassModel::find($id);
+        // // dd(request()->all());
+        // $class->class_name = $request->class_name;
+        // $class->class_note = $request->class_note;
+        // $class->save();
+
+        // return response()->json([
+        //     'updated_class' => $class,
+        // ]);
+        dd(request());
     }
 
     /**

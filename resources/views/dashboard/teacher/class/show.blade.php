@@ -13,7 +13,7 @@
         <h3 class="page-title">
             <span class="page-title-icon bg-gradient-primary text-white me-2">
                 <i class="mdi mdi-note-text-outline"></i>
-            </span> {{$class_detail->class_name}}
+            </span> <a href="/{{request()->path()}}/..">Class</a> /{{$class_detail->class_name}}
         </h3>
         <nav aria-label="breadcrumb">
             <ul class="breadcrumb">
@@ -39,7 +39,7 @@
         <div class="col-12 mb-3 mb-lg-5">
             <div class="overflow-hidden card table-nowrap table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">New customers</h5>
+                    <h5 class="mb-0">Students</h5>
                     <a href="#!" class="btn btn-light btn-sm">View All</a>
                 </div>
                 <div class="table-responsive">

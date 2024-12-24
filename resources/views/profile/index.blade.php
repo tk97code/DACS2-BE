@@ -52,6 +52,100 @@
 .shadow-none {
     box-shadow: none!important;
 }
+.profile-pic-wrapper {
+      width: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .pic-holder {
+      text-align: center;
+      position: relative;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .pic-holder .pic {
+      height: 100%;
+      width: 100%;
+      -o-object-fit: cover;
+      object-fit: cover;
+      -o-object-position: center;
+      object-position: center;
+    }
+
+    .pic-holder .upload-file-block,
+    .pic-holder .upload-loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(90, 92, 105, 0.7);
+      color: #f8f9fc;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .pic-holder .upload-file-block {
+      cursor: pointer;
+    }
+
+    .uploadProfileInput {
+      width: 0px;
+      height: 0px;
+      position: absolute;
+    }
+
+    .pic-holder:hover .upload-file-block,
+    .uploadProfileInput:focus~.upload-file-block {
+      opacity: 1;
+    }
+
+    .pic-holder.uploadInProgress .upload-file-block {
+      display: none;
+    }
+
+    .pic-holder.uploadInProgress .upload-loader {
+      opacity: 1;
+    }
+
+    /* Snackbar css */
+    .snackbar {
+      visibility: hidden;
+      min-width: 250px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      font-size: 14px;
+      transform: translateX(-50%);
+    }
+
+    .snackbar.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
   </style>
 
 </head>
@@ -74,16 +168,20 @@
             <div class="col-md-4 mb-3">
               <div class="card">
                 <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                    <div class="mt-3">
-                      <h4>{{Auth::user()->name}}</h4>
-                      <p class="text-secondary mb-1">{{Auth::user()->permission->permission_name}}</p>
-                      <!-- <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p> -->
-                      <!-- <button class="btn btn-primary">Follow</button>
+                <div class="d-flex flex-column align-items-center text-center profile-pic-wrapper">
+              <div class="pic-holder">
+                <img src="{{Auth::user()->avatar}}" alt="Admin" id="profilePic" class="pic" class="rounded-circle" width="150">
+              </div>
+
+
+              <div class="mt-3">
+                <h4>{{Auth::user()->name}}</h4>
+                <p class="text-secondary mb-1">{{Auth::user()->permission->permission_name}}</p>
+                <!-- <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p> -->
+                <!-- <button class="btn btn-primary">Follow</button>
                       <button class="btn btn-outline-primary">Message</button> -->
-                    </div>
-                  </div>
+              </div>
+            </div>
                 </div>
               </div>
               <div class="card mt-3">
@@ -143,10 +241,10 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">Mobile</h6>
+                      <h6 class="mb-0">Phone numbers</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      (320) 380-4539
+                      {{Auth::user()->phone_number}}
                     </div>
                   </div>
                   <hr>
@@ -155,7 +253,7 @@
                       <h6 class="mb-0">Address</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      Bay Area, San Francisco, CA
+                      {{Auth::user()->address}}
                     </div>
                   </div>
                   <hr>

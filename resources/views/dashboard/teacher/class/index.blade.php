@@ -55,7 +55,14 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <button class="btn btn-sm btn-outline-primary me-2" onclick="event.stopPropagation()">Edit</button>
+                                <button class="btn btn-sm btn-outline-primary me-2 edit-btn" 
+                                        data-class_id="{{$class->class_id}}" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editClassModal" 
+                                        data-class_id="{{$class->class_id}}" 
+                                        data-class_name="{{$class->class_name}}" 
+                                        data-class_note="{{$class->class_note}}"
+                                        onclick="event.stopPropagation()">Edit</button>
                                 <button class="btn btn-sm btn-outline-danger" id="delete-btn" data-class_id="{{$class->class_id}}" onclick="event.stopPropagation()">Delete</button>
                             </div>
                             <!-- <button class="btn btn-sm btn-primary" onclick="event.stopPropagation()">Vào lớp học</button> -->
@@ -76,7 +83,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addClassModalLabel">Thêm lớp học mới</h5>
+                <h5 class="modal-title" id="addClassModalLabel">Add new class</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -99,36 +106,64 @@
     </div>
 </div>
 
+<div class="modal fade" id="editClassModal" tabindex="-1" aria-labelledby="editClassModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editClassModalLabel">Edit class</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="editClassName" class="form-label">Class name</label>
+                        <input type="text" class="form-control" id="editClassName" name="class_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editClassNote" class="form-label">Note</label>
+                        <input type="text" class="form-control" id="editClassNote" name="class_note" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="creat-class-btn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <script scr={{asset('vendor/jquery/jquery.min.js')}} ></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-function classDetail(class_id) {
+    function classDetail(class_id) {
         let url = "{{route('teacher.dashboard.class.show', ':class_id')}}";
         url = url.replace(':class_id', class_id);
         window.location.href = url;
     }
-
 </script>
 <script type="module">
 
     import * as sR0eggyJs from 'https://esm.run/@s-r0/eggy-js';
 
     $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     document.addEventListener('DOMContentLoaded', function() {
-        var myModal = new bootstrap.Modal(document.getElementById('addClassModal'));
+        var createModel = new bootstrap.Modal(document.getElementById('addClassModal'));
 
         // You can add form submission logic here if needed
         document.querySelector('#addClassModal .btn-primary').addEventListener('click', function() {
             // Add your logic to save the new class
             console.log('Saving new class...');
-            myModal.hide();
+            createModel.hide();
         });
+
+        var editModal = new bootstrap.Modal(document.getElementById('editClassModal'));
 
         $('#creat-class-btn').click((e) => {
             let data = new FormData();
@@ -169,8 +204,17 @@ function classDetail(class_id) {
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <button class="btn btn-sm btn-outline-primary me-2" onclick="event.stopPropagation()">Edit</button>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation()">Delete</button>
+                                            <button class="btn btn-sm btn-outline-primary me-2 edit-btn" 
+                                                    data-class_id="${response.new_class[0].class_id}" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#editClassModal" 
+                                                    data-class_id="${response.new_class[0].class_id}" 
+                                                    data-class_name="${response.new_class[0].class_name}" 
+                                                    data-class_note="${response.new_class[0].class_note}" 
+                                                    onclick="event.stopPropagation()">
+                                                    Edit
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" id="delete-btn" data-class_id="{{$class->class_id}}" onclick="event.stopPropagation()">Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -182,24 +226,74 @@ function classDetail(class_id) {
         });
     
         $('#delete-btn').click((e) => {
-            let data = new FormData();
-            let class_id = $(e.currentTarget).data("class_id")
-            let url = "{{route('teacher.dashboard.class.destroy', ':class_id')}}";
-            url = url.replace(':class_id', class_id);
-            data.append('_token', "{{csrf_token()}}");
-            $.ajax({
-                type: 'delete',
-                url: url,
-                data: data,
-                dataType: 'json',
-                contentType:false,
-                processData:false,
-                success: (response) => {
-                    $('.total-class').text(response.current_total_class);
-                    $(`.class-${class_id}`).remove();
+
+            Swal.fire({
+                title: 'Warning!',
+                text: "Are you sure you want to delete class?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes'
+            }).then(function(isConfirm) {
+                if (isConfirm) {
+                    let data = new FormData();
+                    let class_id = $(e.currentTarget).data("class_id")
+                    let url = "{{route('teacher.dashboard.class.destroy', ':class_id')}}";
+                    url = url.replace(':class_id', class_id);
+                    data.append('_token', "{{csrf_token()}}");
+                    $.ajax({
+                        type: 'delete',
+                        url: url,
+                        data: data,
+                        dataType: 'json',
+                        contentType:false,
+                        processData:false,
+                        success: (response) => {
+                            $('.total-class').text(response.current_total_class);
+                            $(`.class-${class_id}`).remove();
+                        }
+                    });
                 }
-            });
+            })
         })
+    
+        $('#editClassModal .btn-primary').click(() => {
+        let class_id = $('#editClassModal').data('class_id'); // Lấy ID từ modal
+        let class_name = $('#editClassName').val();
+        let class_note = $('#editClassNote').val();
+
+        
+        let data = new FormData();
+        data.append('_token', "{{csrf_token()}}");
+        data.append('class_name', class_name);
+        data.append('class_note', class_note);
+
+        let url = "{{route('teacher.update.class', ':class_id')}}";
+        url = url.replace(':class_id', class_id);
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            data: data,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: (response) => {
+                window.location.reload();
+            }
+        });
+    });
+    });
+
+    $('.edit-btn').click((e) => {
+        let button = $(e.currentTarget); // Nút được nhấn
+        let class_id = button.data('class_id');
+        let class_name = button.data('class_name');
+        let class_note = button.data('class_note');
+        
+        // Gán giá trị vào modal
+        $('#editClassName').val(class_name);
+        $('#editClassNote').val(class_note);
+        $('#editClassModal').data('class_id', class_id); // Lưu ID để sử dụng khi cập nhật
     });
 </script>
 

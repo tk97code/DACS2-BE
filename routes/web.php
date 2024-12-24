@@ -14,6 +14,7 @@ use App\Http\Controllers\StudentTestController;
 use App\Http\Controllers\TeacherClassController;
 use App\Http\Controllers\TeacherTestController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UpdateController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Http\Middleware\CheckPermissionMiddleware;
 use App\Http\Middleware\ClassPermissionMiddleware;
@@ -46,6 +47,8 @@ Route::prefix('teacher')->group(function () {
         });
         
         Route::resource('class', TeacherClassController::class, ['as' => 'teacher.dashboard']);
+        Route::post('class/{class_id}', [UpdateController::class, 'updateClass'])->name('teacher.update.class');
+        
         // Route::prefix('/class')->group(function () {
             //     Route::get('/', [ClassController::class, 'index'])->name('class.index');
             //     Route::post('/create-class', [ClassController::class, 'handleCreateclass'])->name('class.create');
@@ -83,12 +86,26 @@ Route::prefix('student')->group(function() {
     });
 });
 
-Route::get('profile', function() {
-    return view('profile.index');
-})->name('profile.index');
+Route::prefix('profile')->group(function() {
+    Route::get('index', function() {
+        return view('profile.index');
+    })->name('profile.index');
 
-Route::get('profile/edit', function() {
-    return view('profile.edit');
-})->name('profile.edit');
+    Route::get('edit', function() {
+        return view('profile.edit');
+    })->name('profile.edit');
 
-Route::post('profile/update', [ProfileController::class, "updateProfile"])->name('profile.udpate');
+    Route::post('update', [ProfileController::class, "updateProfile"])->name('profile.udpate');
+
+    Route::post('update-avatar', [ProfileController::class, "updateAvatar"])->name('profile.avatar');
+});
+
+// Route::get('profile', function() {
+//     return view('profile.index');
+// })->name('profile.index');
+
+// Route::get('profile/edit', function() {
+//     return view('profile.edit');
+// })->name('profile.edit');
+
+// Route::post('profile/update', [ProfileController::class, "updateProfile"])->name('profile.udpate');

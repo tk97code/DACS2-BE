@@ -121,7 +121,7 @@
         <h3 class="page-title">
             <span class="page-title-icon bg-gradient-primary text-white me-2">
                 <i class="mdi mdi-note-text-outline"></i>
-            </span> Class | {{$class->class_name}}
+            </span> <a href="/{{request()->path()}}/..">Class</a> /{{$class->class_name}}
         </h3>
     </div>
 

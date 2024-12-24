@@ -14,10 +14,9 @@ class User extends Authenticatable
     // Nếu bảng không có các trường `created_at` và `updated_at`
     public $timestamps = false;
 
-    // Các thuộc tính có thể được gán hàng loạt
     protected $fillable = [
         'email', 'id', 'google_id', 'name', 'gender', 'dob', 
-        'avatar', 'join_date', 'password', 'status', 'phone_number', 
+        'avatar', 'join_date', 'password', 'status', 'phone_number', 'address',
         'token', 'otp', 'permission_id'
     ];
 

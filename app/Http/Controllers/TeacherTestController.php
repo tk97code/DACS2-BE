@@ -80,9 +80,7 @@ class TeacherTestController extends Controller
      */
     public function show(string $id)
     {
-        
-
-        return view('dashboard.teacher.test.show');
+        return view('dashboard.teacher.test.show', compact(['id']));
     }
 
     /**
